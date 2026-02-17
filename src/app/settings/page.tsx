@@ -10,7 +10,7 @@ export default async function SettingsPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user?.name} />
-      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8">
+      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
         <div className="bg-white border border-gray-200 rounded-xl p-6 max-w-lg space-y-5">
           <Setting label="Target Long-term Allocation" value="50%" />

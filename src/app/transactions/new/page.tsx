@@ -14,7 +14,7 @@ export default async function NewTransactionPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user?.name} />
-      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8">
+      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8">
         <div className="flex items-center gap-2 mb-6">
           <Link href="/holdings" className="text-gray-400 hover:text-gray-600 text-sm">← Back</Link>
           <h1 className="text-2xl font-bold text-gray-900">Record Transaction</h1>

@@ -36,7 +36,7 @@ export default async function OpportunitiesPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} />
-      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 max-w-5xl">
+      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <h1 className="text-2xl font-bold text-gray-900 mb-1">🔎 Opportunities</h1>
         <p className="text-gray-400 text-sm mb-6">Early-stage protocols & coins detected by Wen&apos;s scanner — rug-pull risk assessed</p>
 

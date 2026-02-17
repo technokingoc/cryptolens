@@ -56,7 +56,7 @@ export default async function ProposalsPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} />
-      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 max-w-5xl">
+      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <h1 className="text-2xl font-bold text-gray-900 mb-1">⚡ Trade Proposals</h1>
         <p className="text-gray-400 text-sm mb-6">Wen&apos;s confluence-scored recommendations. Review and decide.</p>
 

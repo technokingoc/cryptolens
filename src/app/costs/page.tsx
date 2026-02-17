@@ -17,7 +17,7 @@ export default async function CostsPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} />
-      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 max-w-5xl">
+      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <h1 className="text-2xl font-bold text-gray-900 mb-1">Operating Costs</h1>
         <p className="text-gray-500 text-sm mb-6">Monthly burn: <span className="text-gray-900 font-semibold">${monthlyCost.toFixed(2)}/mo</span></p>
 
