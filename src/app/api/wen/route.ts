@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import { db } from "@/db";
-import { tradeProposals, marketIndicators, analysisReports, marketCache } from "@/db/schema";
+import { tradeProposals, marketIndicators, analysisReports, marketCache, opportunities } from "@/db/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 
@@ -105,6 +105,32 @@ export async function POST(req: NextRequest) {
           });
         }
         return NextResponse.json({ ok: true, cached: body.coins?.length ?? 0 });
+      }
+
+      case "opportunity": {
+        const [created] = await db.insert(opportunities).values({
+          userId: body.userId,
+          coinId: body.coinId,
+          protocolName: body.protocolName,
+          symbol: body.symbol,
+          category: body.category,
+          chain: body.chain,
+          source: body.source || "defillama",
+          tvl: body.tvl != null ? String(body.tvl) : null,
+          tvlChange1d: body.tvlChange1d != null ? String(body.tvlChange1d) : null,
+          tvlChange7d: body.tvlChange7d != null ? String(body.tvlChange7d) : null,
+          price: body.price != null ? String(body.price) : null,
+          mcap: body.mcap != null ? String(body.mcap) : null,
+          volume24h: body.volume24h != null ? String(body.volume24h) : null,
+          ageDays: body.ageDays,
+          auditStatus: body.auditStatus,
+          riskScore: body.riskScore ?? 50,
+          riskFlags: body.riskFlags ?? [],
+          opportunityScore: body.opportunityScore ?? 50,
+          thesis: body.thesis,
+          wenVerdict: body.wenVerdict,
+        }).returning();
+        return NextResponse.json({ ok: true, id: created.id });
       }
 
       default:

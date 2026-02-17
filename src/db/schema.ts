@@ -162,6 +162,35 @@ export const analysisReports = pgTable("analysis_reports", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
+// Opportunities (from Wen's scanner)
+export const opportunities = pgTable("opportunities", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull(),
+  coinId: text("coin_id"),
+  protocolName: text("protocol_name").notNull(),
+  symbol: text("symbol"),
+  category: text("category").notNull(),
+  chain: text("chain"),
+  source: text("source").notNull(), // defillama, coingecko, manual
+  tvl: decimal("tvl", { precision: 20, scale: 2 }),
+  tvlChange1d: decimal("tvl_change_1d", { precision: 10, scale: 4 }),
+  tvlChange7d: decimal("tvl_change_7d", { precision: 10, scale: 4 }),
+  price: decimal("price", { precision: 20, scale: 10 }),
+  mcap: decimal("mcap", { precision: 20, scale: 2 }),
+  volume24h: decimal("volume_24h", { precision: 20, scale: 2 }),
+  ageDays: integer("age_days"),
+  auditStatus: text("audit_status"),
+  riskScore: integer("risk_score").notNull().default(50),
+  riskFlags: text("risk_flags").array(),
+  opportunityScore: integer("opportunity_score").notNull().default(50),
+  thesis: text("thesis"),
+  status: text("status").notNull().default("new"), // new, watching, passed, invested
+  wenVerdict: text("wen_verdict"),
+  founderAction: text("founder_action"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+}, (t) => [index("idx_opps_user").on(t.userId), index("idx_opps_status").on(t.status)]);
+
 // Market Cache
 export const marketCache = pgTable("market_cache", {
   coinId: text("coin_id").primaryKey(),

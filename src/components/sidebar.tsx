@@ -10,6 +10,7 @@ const links = [
   { href: "/proposals", label: "Trade Proposals", icon: "⚡" },
   { href: "/holdings", label: "Holdings", icon: "💰" },
   { href: "/transactions", label: "Transactions", icon: "📝" },
+  { href: "/opportunities", label: "Opportunities", icon: "🔎" },
   { href: "/reports", label: "Reports", icon: "📄" },
   { href: "/costs", label: "Costs", icon: "💸" },
   { href: "/risk", label: "Risk", icon: "⚠️" },
