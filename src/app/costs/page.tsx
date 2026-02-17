@@ -35,7 +35,7 @@ export default async function CostsPage() {
             <input name="startDate" type="date" required className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" />
             <input name="description" placeholder="Description" className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" />
           </div>
-          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-500">Add Cost</button>
+          <button type="submit" className="bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-600">Add Cost</button>
         </form>
 
         {items.length > 0 && (

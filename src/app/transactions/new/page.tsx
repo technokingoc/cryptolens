@@ -64,7 +64,7 @@ export default async function NewTransactionPage() {
             <label className="block text-sm text-gray-400 mb-1">Notes</label>
             <textarea name="notes" rows={2} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white" placeholder="Optional notes..." />
           </div>
-          <button type="submit" className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-500 transition">Record Transaction</button>
+          <button type="submit" className="w-full bg-slate-700 text-white py-2.5 rounded-lg font-medium hover:bg-slate-600 transition">Record Transaction</button>
         </form>
       </main>
     </div>

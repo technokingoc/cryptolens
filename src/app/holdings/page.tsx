@@ -24,12 +24,12 @@ export default async function HoldingsPage() {
       <main className="flex-1 ml-16 md:ml-56 p-4 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Holdings</h1>
-          <Link href="/transactions/new" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-500 transition">+ Record Transaction</Link>
+          <Link href="/transactions/new" className="bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-600 transition">+ Record Transaction</Link>
         </div>
         {enriched.length === 0 ? (
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-12 text-center">
             <p className="text-gray-500 text-lg mb-4">No holdings yet</p>
-            <Link href="/transactions/new" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-500">Record your first transaction</Link>
+            <Link href="/transactions/new" className="bg-slate-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-slate-600">Record your first transaction</Link>
           </div>
         ) : (
           <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
@@ -53,7 +53,7 @@ export default async function HoldingsPage() {
                   {enriched.map((h) => (
                     <tr key={h.id} className="hover:bg-gray-800/30">
                       <td className="px-4 py-3"><span className="font-medium">{h.symbol}</span> <span className="text-gray-500 text-xs">{h.name}</span></td>
-                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded text-xs ${h.bucket === "long-term" ? "bg-blue-900/50 text-blue-400" : "bg-purple-900/50 text-purple-400"}`}>{h.bucket === "long-term" ? "Long" : "Short"}</span></td>
+                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded text-xs ${h.bucket === "long-term" ? "bg-slate-800/50 text-slate-300" : "bg-gray-700/50 text-gray-400"}`}>{h.bucket === "long-term" ? "Long" : "Short"}</span></td>
                       <td className="px-4 py-3 text-right text-gray-300">{h.quantity.toFixed(6)}</td>
                       <td className="px-4 py-3 text-right text-gray-300">${h.avgBuyPrice.toFixed(2)}</td>
                       <td className="px-4 py-3 text-right text-gray-300">${h.currentPrice.toFixed(2)}</td>

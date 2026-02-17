@@ -19,12 +19,12 @@ export default async function TransactionsPage() {
       <main className="flex-1 ml-16 md:ml-56 p-4 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Transactions</h1>
-          <Link href="/transactions/new" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-500 transition">+ New</Link>
+          <Link href="/transactions/new" className="bg-slate-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-600 transition">+ New</Link>
         </div>
         {txs.length === 0 ? (
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-12 text-center">
             <p className="text-gray-500 mb-4">No transactions recorded yet</p>
-            <Link href="/transactions/new" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium">Record First Transaction</Link>
+            <Link href="/transactions/new" className="bg-slate-700 text-white px-6 py-3 rounded-lg font-medium">Record First Transaction</Link>
           </div>
         ) : (
           <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
@@ -49,7 +49,7 @@ export default async function TransactionsPage() {
                       <td className="px-4 py-3 text-gray-400">{t.tradedAt?.toLocaleDateString()}</td>
                       <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded text-xs font-medium ${t.type === "BUY" ? "bg-green-900/50 text-green-400" : "bg-red-900/50 text-red-400"}`}>{t.type}</span></td>
                       <td className="px-4 py-3 font-medium">{t.symbol}</td>
-                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded text-xs ${t.bucket === "long-term" ? "bg-blue-900/50 text-blue-400" : "bg-purple-900/50 text-purple-400"}`}>{t.bucket === "long-term" ? "LT" : "ST"}</span></td>
+                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded text-xs ${t.bucket === "long-term" ? "bg-slate-800/50 text-slate-300" : "bg-gray-700/50 text-gray-400"}`}>{t.bucket === "long-term" ? "LT" : "ST"}</span></td>
                       <td className="px-4 py-3 text-right text-gray-300">{parseFloat(t.quantity).toFixed(6)}</td>
                       <td className="px-4 py-3 text-right text-gray-300">${parseFloat(t.pricePerUnit).toFixed(2)}</td>
                       <td className="px-4 py-3 text-right">${parseFloat(t.totalValue).toFixed(2)}</td>

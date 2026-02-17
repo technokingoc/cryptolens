@@ -7,17 +7,17 @@ export default async function LoginPage() {
   if (session) redirect("/dashboard");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-blue-950 to-gray-950">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-slate-900 to-gray-950">
       <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">🔍 CryptoLens</h1>
-          <p className="text-blue-400">Portfolio Intelligence Platform</p>
+          <p className="text-slate-300">Portfolio Intelligence Platform</p>
           <p className="text-sm text-gray-500 mt-1">Track • Analyze • Decide</p>
         </div>
         <form action={async (formData: FormData) => { "use server"; await signIn("credentials", { email: formData.get("email"), password: formData.get("password"), redirectTo: "/dashboard" }); }} className="space-y-3 mb-6">
-          <input name="email" type="email" required defaultValue="anibal.santos.msc@gmail.com" placeholder="Email" className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <input name="password" type="password" required placeholder="Password" className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <button type="submit" className="w-full bg-blue-600 text-white rounded-xl px-6 py-3 font-medium hover:bg-blue-500 transition">Sign In</button>
+          <input name="email" type="email" required defaultValue="anibal.santos.msc@gmail.com" placeholder="Email" className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-slate-500" />
+          <input name="password" type="password" required placeholder="Password" className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-slate-500" />
+          <button type="submit" className="w-full bg-slate-700 text-white rounded-xl px-6 py-3 font-medium hover:bg-slate-600 transition">Sign In</button>
         </form>
         <div className="relative mb-6"><div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-700" /></div><div className="relative flex justify-center text-sm"><span className="px-2 bg-gray-900 text-gray-500">or</span></div></div>
         <form action={async () => { "use server"; await signIn("google", { redirectTo: "/dashboard" }); }}>

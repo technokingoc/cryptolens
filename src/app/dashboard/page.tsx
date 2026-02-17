@@ -95,7 +95,7 @@ export default async function DashboardPage() {
                   {enriched.map((h) => (
                     <tr key={h.id} className="hover:bg-gray-800/30">
                       <td className="px-4 py-3 font-medium">{h.symbol} <span className="text-gray-500 text-xs">{h.name}</span></td>
-                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded text-xs ${h.bucket === "long-term" ? "bg-blue-900/50 text-blue-400" : "bg-purple-900/50 text-purple-400"}`}>{h.bucket === "long-term" ? "LT" : "ST"}</span></td>
+                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded text-xs ${h.bucket === "long-term" ? "bg-slate-800/50 text-slate-300" : "bg-gray-700/50 text-gray-400"}`}>{h.bucket === "long-term" ? "LT" : "ST"}</span></td>
                       <td className="px-4 py-3 text-right text-gray-300">{h.quantity.toFixed(6)}</td>
                       <td className="px-4 py-3 text-right text-gray-300">${h.currentPrice.toFixed(2)}</td>
                       <td className="px-4 py-3 text-right">${h.currentValue.toFixed(2)}</td>
@@ -124,7 +124,7 @@ function StatCard({ label, value, sub, positive }: { label: string; value: strin
 }
 
 function AllocBar({ label, pct, value, color }: { label: string; pct: number; value: number; color: string }) {
-  const bg = color === "blue" ? "bg-blue-600" : "bg-purple-600";
+  const bg = color === "blue" ? "bg-slate-500" : "bg-gray-500";
   return (
     <div>
       <div className="flex justify-between text-sm mb-1">

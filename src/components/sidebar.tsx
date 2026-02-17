@@ -24,7 +24,7 @@ export function Sidebar({ userName }: { userName?: string | null }) {
       </div>
       <nav className="flex-1 py-2">
         {links.map((l) => (
-          <Link key={l.href} href={l.href} className={`flex items-center gap-3 px-3 md:px-4 py-2.5 text-sm transition ${pathname === l.href ? "bg-blue-600/20 text-blue-400 border-r-2 border-blue-400" : "text-gray-400 hover:text-white hover:bg-gray-800"}`}>
+          <Link key={l.href} href={l.href} className={`flex items-center gap-3 px-3 md:px-4 py-2.5 text-sm transition ${pathname === l.href ? "bg-slate-600/20 text-slate-300 border-r-2 border-slate-400" : "text-gray-400 hover:text-white hover:bg-gray-800"}`}>
             <span className="text-base">{l.icon}</span>
             <span className="hidden md:block">{l.label}</span>
           </Link>
