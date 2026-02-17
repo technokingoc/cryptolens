@@ -5,8 +5,11 @@ import { signOut } from "next-auth/react";
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: "📊" },
+  { href: "/market", label: "Market Intel", icon: "🌍" },
+  { href: "/proposals", label: "Trade Proposals", icon: "⚡" },
   { href: "/holdings", label: "Holdings", icon: "💰" },
   { href: "/transactions", label: "Transactions", icon: "📝" },
+  { href: "/reports", label: "Reports", icon: "📄" },
   { href: "/costs", label: "Costs", icon: "💸" },
   { href: "/risk", label: "Risk", icon: "⚠️" },
   { href: "/settings", label: "Settings", icon: "⚙️" },
@@ -22,7 +25,7 @@ export function Sidebar({ userName }: { userName?: string | null }) {
           <span className="hidden md:block font-bold text-white text-sm">CryptoLens</span>
         </Link>
       </div>
-      <nav className="flex-1 py-2">
+      <nav className="flex-1 py-2 overflow-y-auto">
         {links.map((l) => (
           <Link key={l.href} href={l.href} className={`flex items-center gap-3 px-3 md:px-4 py-2.5 text-sm transition ${pathname === l.href ? "bg-slate-600/20 text-slate-300 border-r-2 border-slate-400" : "text-gray-400 hover:text-white hover:bg-gray-800"}`}>
             <span className="text-base">{l.icon}</span>

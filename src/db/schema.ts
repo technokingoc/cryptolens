@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, timestamp, integer, decimal, date, boolean, uniqueIndex, index, primaryKey } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, timestamp, integer, decimal, date, boolean, uniqueIndex, index, primaryKey, jsonb } from "drizzle-orm/pg-core";
 
 // Auth tables
 export const users = pgTable("users", {
@@ -103,6 +103,64 @@ export const costItems = pgTable("cost_items", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [index("idx_costs_user").on(t.userId)]);
+
+// Trade Proposals (from Wen)
+export const tradeProposals = pgTable("trade_proposals", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull(),
+  coinId: text("coin_id").notNull(),
+  symbol: text("symbol").notNull(),
+  action: text("action").notNull(), // BUY, SELL, HOLD
+  bucket: text("bucket").notNull(),
+  confluenceScore: decimal("confluence_score", { precision: 5, scale: 2 }).notNull(),
+  signal: text("signal").notNull(), // STRONG BUY, MODERATE BUY, NEUTRAL, etc.
+  thesis: text("thesis"),
+  entryPrice: decimal("entry_price", { precision: 20, scale: 10 }),
+  stopLoss: decimal("stop_loss", { precision: 20, scale: 10 }),
+  target1: decimal("target_1", { precision: 20, scale: 10 }),
+  target2: decimal("target_2", { precision: 20, scale: 10 }),
+  positionSizePct: decimal("position_size_pct", { precision: 5, scale: 2 }),
+  timeHorizon: text("time_horizon"),
+  maxLoss: decimal("max_loss", { precision: 20, scale: 2 }),
+  expectedGain: decimal("expected_gain", { precision: 20, scale: 2 }),
+  riskReward: text("risk_reward"),
+  pillarTechnical: integer("pillar_technical").default(0),
+  pillarNarrative: integer("pillar_narrative").default(0),
+  pillarSentiment: integer("pillar_sentiment").default(0),
+  pillarOnchain: integer("pillar_onchain").default(0),
+  pillarMacro: integer("pillar_macro").default(0),
+  pillarFundamentals: integer("pillar_fundamentals").default(0),
+  pillarRiskreward: integer("pillar_riskreward").default(0),
+  pillarNotes: jsonb("pillar_notes"),
+  risks: text("risks").array(),
+  status: text("status").notNull().default("pending"), // pending, approved, rejected, executed, expired
+  founderDecision: text("founder_decision"),
+  decisionNotes: text("decision_notes"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  decidedAt: timestamp("decided_at", { withTimezone: true }),
+}, (t) => [index("idx_proposals_user").on(t.userId), index("idx_proposals_status").on(t.status)]);
+
+// Market Indicators (F&G, DXY, VIX, etc.)
+export const marketIndicators = pgTable("market_indicators", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  indicatorName: text("indicator_name").notNull(),
+  value: decimal("value", { precision: 20, scale: 4 }).notNull(),
+  label: text("label"),
+  signal: text("signal"),
+  source: text("source"),
+  recordedAt: timestamp("recorded_at", { withTimezone: true }).defaultNow(),
+}, (t) => [uniqueIndex("idx_indicators_name").on(t.indicatorName)]);
+
+// Analysis Reports (from Wen)
+export const analysisReports = pgTable("analysis_reports", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id").notNull(),
+  title: text("title").notNull(),
+  reportType: text("report_type").notNull(), // market_report, trade_analysis, portfolio_review, alert
+  content: text("content").notNull(),
+  marketSnapshot: jsonb("market_snapshot"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
 
 // Market Cache
 export const marketCache = pgTable("market_cache", {

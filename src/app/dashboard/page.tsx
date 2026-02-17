@@ -2,18 +2,33 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { holdings, costItems } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { holdings, costItems, tradeProposals, marketIndicators } from "@/db/schema";
+import { eq, and, desc } from "drizzle-orm";
 import { Sidebar } from "@/components/sidebar";
 import { fetchAndCachePrices } from "@/lib/market";
 import { enrichHoldings, calcAllocation, calcPortfolioStats } from "@/lib/portfolio";
 import { getTotalMonthlyCosts } from "@/lib/actions";
+import Link from "next/link";
+
+async function fetchFearGreed() {
+  try {
+    const res = await fetch("https://api.alternative.me/fng/?limit=1", { next: { revalidate: 300 } });
+    const data = await res.json();
+    return data?.data?.[0] ?? null;
+  } catch { return null; }
+}
 
 export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/");
 
-  const allHoldings = await db.select().from(holdings).where(and(eq(holdings.userId, session.user.id), eq(holdings.isActive, true)));
+  const [allHoldings, pendingProposals, indicators, fng] = await Promise.all([
+    db.select().from(holdings).where(and(eq(holdings.userId, session.user.id), eq(holdings.isActive, true))),
+    db.select().from(tradeProposals).where(and(eq(tradeProposals.userId, session.user.id), eq(tradeProposals.status, "pending"))),
+    db.select().from(marketIndicators),
+    fetchFearGreed(),
+  ]);
+
   const coinIds = [...new Set(allHoldings.map((h) => h.coinId))];
   const prices = await fetchAndCachePrices(coinIds);
   const enriched = enrichHoldings(allHoldings, prices);
@@ -24,21 +39,66 @@ export default async function DashboardPage() {
   const topGainers = [...enriched].sort((a, b) => b.unrealizedPnlPct - a.unrealizedPnlPct).slice(0, 3);
   const topLosers = [...enriched].sort((a, b) => a.unrealizedPnlPct - b.unrealizedPnlPct).slice(0, 3);
 
+  const fngValue = fng ? parseInt(fng.value) : null;
+  const fngColor = fngValue !== null
+    ? fngValue <= 20 ? "text-red-500" : fngValue <= 40 ? "text-orange-400" : fngValue <= 60 ? "text-yellow-400" : "text-green-400"
+    : "text-gray-500";
+
   return (
     <div className="flex min-h-screen">
       <Sidebar userName={session.user.name} />
       <main className="flex-1 ml-16 md:ml-56 p-4 md:p-8">
-        <h1 className="text-2xl font-bold mb-6">Portfolio Dashboard</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">Portfolio Dashboard</h1>
+          {pendingProposals.length > 0 && (
+            <Link href="/proposals" className="flex items-center gap-2 bg-yellow-900/30 border border-yellow-800 text-yellow-400 px-4 py-2 rounded-lg text-sm font-medium hover:bg-yellow-900/50 transition animate-pulse">
+              ⚡ {pendingProposals.length} Pending Proposal{pendingProposals.length > 1 ? "s" : ""}
+            </Link>
+          )}
+        </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
           <StatCard label="Total Value" value={`$${stats.totalValue.toFixed(2)}`} />
           <StatCard label="Invested" value={`$${stats.totalCostBasis.toFixed(2)}`} />
           <StatCard label="Unrealized P&L" value={`$${stats.totalUnrealizedPnl.toFixed(2)}`} sub={`${stats.unrealizedPnlPct >= 0 ? "+" : ""}${stats.unrealizedPnlPct.toFixed(1)}%`} positive={stats.totalUnrealizedPnl >= 0} />
           <StatCard label="Net ROI" value={`${stats.netROI >= 0 ? "+" : ""}${stats.netROI.toFixed(1)}%`} sub={`Costs: $${monthlyCosts.toFixed(2)}/mo`} positive={stats.netROI >= 0} />
+          <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+            <p className="text-xs text-gray-500 uppercase">Fear & Greed</p>
+            {fngValue !== null ? (
+              <>
+                <p className={`text-xl font-bold mt-1 ${fngColor}`}>{fngValue}/100</p>
+                <p className={`text-xs mt-1 ${fngColor} opacity-75`}>{fng.value_classification}</p>
+              </>
+            ) : (
+              <p className="text-xl font-bold mt-1 text-gray-500">—</p>
+            )}
+          </div>
         </div>
 
-        {/* Allocation */}
+        {/* Pending Proposals Banner */}
+        {pendingProposals.length > 0 && (
+          <div className="bg-gray-900 border border-yellow-800/50 rounded-xl p-4 mb-6">
+            <h2 className="font-semibold text-yellow-400 mb-3">⚡ Awaiting Your Decision</h2>
+            <div className="space-y-2">
+              {pendingProposals.map((p) => (
+                <Link key={p.id} href="/proposals" className="flex items-center justify-between bg-gray-800/50 rounded-lg px-4 py-3 hover:bg-gray-800 transition">
+                  <div className="flex items-center gap-3">
+                    <span className={`font-bold ${p.action === "BUY" ? "text-green-400" : "text-red-400"}`}>{p.action}</span>
+                    <span className="text-white font-medium">{p.symbol}</span>
+                    <span className="text-gray-500 text-sm">{p.bucket}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-gray-400">{p.signal}</span>
+                    <span className="text-white font-bold">{parseFloat(p.confluenceScore) >= 0 ? "+" : ""}{parseFloat(p.confluenceScore).toFixed(2)}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Allocation & Movers */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
             <h2 className="font-semibold text-gray-300 mb-4">Allocation (Target: 50/50)</h2>
@@ -74,10 +134,29 @@ export default async function DashboardPage() {
           </div>
         </div>
 
+        {/* Wen's Indicators */}
+        {indicators.length > 0 && (
+          <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
+            <h2 className="font-semibold text-gray-300 mb-4">📡 Market Indicators</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {indicators.map((ind) => (
+                <div key={ind.id} className="bg-gray-800/50 rounded-lg p-3">
+                  <p className="text-xs text-gray-500">{ind.indicatorName}</p>
+                  <p className="text-lg font-bold text-white">{parseFloat(ind.value).toLocaleString()}</p>
+                  {ind.signal && <p className="text-xs text-gray-400">{ind.signal}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Holdings Summary */}
         {enriched.length > 0 && (
           <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-800"><h2 className="font-semibold text-gray-300">Holdings</h2></div>
+            <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
+              <h2 className="font-semibold text-gray-300">Holdings</h2>
+              <Link href="/holdings" className="text-sm text-gray-500 hover:text-gray-300">View all →</Link>
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-800/50">
