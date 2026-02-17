@@ -1,15 +1,13 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/db";
-import { accounts, sessions, users, verificationTokens } from "@/db/schema";
+import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 const allowedEmails = (process.env.ALLOWED_EMAILS ?? "").split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db, { usersTable: users, accountsTable: accounts as any, sessionsTable: sessions as any, verificationTokensTable: verificationTokens }),
   session: { strategy: "jwt" },
   providers: [
     Google({ clientId: process.env.GOOGLE_CLIENT_ID!, clientSecret: process.env.GOOGLE_CLIENT_SECRET! }),
@@ -28,12 +26,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account }) {
       if (!user.email) return false;
-      if (allowedEmails.length === 0) return true;
-      return allowedEmails.includes(user.email.toLowerCase());
+      if (allowedEmails.length > 0 && !allowedEmails.includes(user.email.toLowerCase())) return false;
+      // Ensure user exists in DB for Google sign-in
+      if (account?.provider === "google") {
+        const [existing] = await db.select().from(users).where(eq(users.email, user.email));
+        if (!existing) {
+          await db.insert(users).values({ email: user.email, name: user.name ?? null, image: user.image ?? null });
+        }
+      }
+      return true;
     },
-    async jwt({ token, user }) { if (user) token.id = user.id; return token; },
+    async jwt({ token, user }) {
+      if (user) {
+        const [dbUser] = await db.select().from(users).where(eq(users.email, user.email!));
+        if (dbUser) token.id = dbUser.id;
+      }
+      return token;
+    },
     async session({ session, token }) { if (session.user && token.id) session.user.id = token.id as string; return session; },
   },
   pages: { signIn: "/", error: "/" },
