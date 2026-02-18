@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { tradeProposals } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { Sidebar } from "@/components/sidebar";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
@@ -31,6 +32,7 @@ export default async function ProposalsPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
+        <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Proposals" }]} />
         <ProposalsClient proposals={serialized} locale={locale} />
       </main>
     </div>

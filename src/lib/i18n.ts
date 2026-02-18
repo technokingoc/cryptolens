@@ -198,6 +198,58 @@ const dict = {
 
   // Common
   signOut: { en: "Sign out", pt: "Sair" },
+
+  // Breadcrumbs
+  home: { en: "Home", pt: "Início" },
+
+  // Holdings detail view
+  purchaseHistory: { en: "Purchase History", pt: "Histórico de Compras" },
+  costBasisBreakdown: { en: "Cost Basis Breakdown", pt: "Detalhamento do Custo Médio" },
+  totalCostBasis: { en: "Total Cost Basis", pt: "Custo Base Total" },
+  avgCostPerUnit: { en: "Avg Cost / Unit", pt: "Custo Médio / Unidade" },
+  totalQuantity: { en: "Total Quantity", pt: "Quantidade Total" },
+  noTransactionsForAsset: { en: "No transactions recorded", pt: "Sem transações registradas" },
+  holdingNotes: { en: "Notes", pt: "Notas" },
+  notesPlaceholder: { en: "Add notes about this holding...", pt: "Adicione notas sobre este ativo..." },
+  clickToCollapse: { en: "Click to collapse", pt: "Clique para recolher" },
+  fee: { en: "Fee", pt: "Taxa" },
+
+  // Risk page enhancements
+  riskScoreSummary: { en: "Risk Score", pt: "Pontuação de Risco" },
+  overallRisk: { en: "Overall Risk", pt: "Risco Geral" },
+  lowRisk: { en: "Low", pt: "Baixo" },
+  mediumRisk: { en: "Medium", pt: "Médio" },
+  highRisk: { en: "High", pt: "Alto" },
+  concentrationWarnings: { en: "Concentration Warnings", pt: "Alertas de Concentração" },
+  assetExceeds30: { en: "exceeds 30% of portfolio", pt: "excede 30% do portfólio" },
+  noConcentrationIssues: { en: "No concentration issues detected", pt: "Sem problemas de concentração detectados" },
+  correlationRisk: { en: "Correlation Risk", pt: "Risco de Correlação" },
+  correlationNote: { en: "Assets in the same sector may move together, amplifying risk", pt: "Ativos no mesmo setor podem se mover juntos, amplificando o risco" },
+  highCorrelation: { en: "High correlation group", pt: "Grupo de alta correlação" },
+  diversified: { en: "Portfolio appears well diversified", pt: "Portfólio parece bem diversificado" },
+  riskFactors: { en: "Risk Factors", pt: "Fatores de Risco" },
+  concentrationFactor: { en: "Concentration", pt: "Concentração" },
+  balanceFactor: { en: "Balance", pt: "Balanço" },
+  diversificationFactor: { en: "Diversification", pt: "Diversificação" },
+
+  // Opportunities filters
+  filterByChain: { en: "Chain", pt: "Rede" },
+  filterBySource: { en: "Source", pt: "Fonte" },
+  filterByAge: { en: "Age", pt: "Idade" },
+  sortBy: { en: "Sort by", pt: "Ordenar por" },
+  sortNewest: { en: "Newest", pt: "Mais recentes" },
+  sortOldest: { en: "Oldest", pt: "Mais antigos" },
+  sortRiskLow: { en: "Risk: Low → High", pt: "Risco: Baixo → Alto" },
+  sortRiskHigh: { en: "Risk: High → Low", pt: "Risco: Alto → Baixo" },
+  sortScore: { en: "Opportunity Score", pt: "Pontuação de Oportunidade" },
+  allChains: { en: "All Chains", pt: "Todas as Redes" },
+  allSources: { en: "All Sources", pt: "Todas as Fontes" },
+  allAges: { en: "All Ages", pt: "Todas as Idades" },
+  under7d: { en: "< 7 days", pt: "< 7 dias" },
+  under30d: { en: "< 30 days", pt: "< 30 dias" },
+  under90d: { en: "< 90 days", pt: "< 90 dias" },
+  over90d: { en: "> 90 days", pt: "> 90 dias" },
+  clearFilters: { en: "Clear filters", pt: "Limpar filtros" },
 } as const;
 
 export type DictKey = keyof typeof dict;

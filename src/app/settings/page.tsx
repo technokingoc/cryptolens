@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
@@ -18,6 +19,7 @@ export default async function SettingsPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user?.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-3xl">
+        <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Settings" }]} />
         <div className="flex items-center gap-2 mb-6">
           <Settings className="w-6 h-6 text-gray-400" />
           <h1 className="text-2xl font-bold text-gray-900">{t("settings", locale)}</h1>

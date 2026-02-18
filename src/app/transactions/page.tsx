@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { transactions } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { Sidebar } from "@/components/sidebar";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { TransactionsClient } from "@/components/transactions-client";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
@@ -39,8 +40,10 @@ export default async function TransactionsPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-7xl">
+        <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Transactions" }]} />
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">{t("transactions", locale)}</h1>
+          <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Transactions" }]} />
+        <h1 className="text-2xl font-bold text-gray-900">{t("transactions", locale)}</h1>
           <div className="flex items-center gap-2">
             <Link href="/transactions/new" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">+ {t("newTx", locale)}</Link>
           </div>

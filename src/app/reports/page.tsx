@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { analysisReports } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { Sidebar } from "@/components/sidebar";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
@@ -26,6 +27,7 @@ export default async function ReportsPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
+        <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Reports" }]} />
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 mb-1 flex items-center gap-2"><FileText className="w-6 h-6 text-gray-400" /> {t("analysisReports", locale)}</h1>

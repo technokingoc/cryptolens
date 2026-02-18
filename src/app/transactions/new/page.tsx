@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { recordTransaction } from "@/lib/actions";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
@@ -21,6 +22,7 @@ export default async function NewTransactionPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user?.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8">
+        <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Transactions", href: "/transactions" }, { label: "New" }]} />
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <Link href="/holdings" className="text-gray-400 hover:text-gray-600 text-sm">← {t("back", locale)}</Link>
