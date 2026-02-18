@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
+import { getLocaleFromCookie } from "@/lib/i18n";
+import { cookies } from "next/headers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -7,12 +9,15 @@ export const metadata: Metadata = {
   description: "Investment portfolio tracking and capital management platform",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const locale = getLocaleFromCookie(cookieStore.get("locale")?.value);
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className="antialiased min-h-screen">
         {children}
-        <MobileBottomNav />
+        <MobileBottomNav locale={locale} />
       </body>
     </html>
   );

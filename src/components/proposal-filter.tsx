@@ -50,7 +50,7 @@ export function ProposalFilter({ locale, proposals, renderProposal }: ProposalFi
             onClick={() => setStatusFilter(s)}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               statusFilter === s
-                ? "bg-gray-900 text-white"
+                ? "bg-blue-600 text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
@@ -67,7 +67,7 @@ export function ProposalFilter({ locale, proposals, renderProposal }: ProposalFi
             onClick={() => setActionFilter(a)}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               actionFilter === a
-                ? a === "BUY" ? "bg-emerald-600 text-white" : a === "SELL" ? "bg-red-500 text-white" : "bg-gray-700 text-white"
+                ? a === "BUY" ? "bg-emerald-600 text-white" : a === "SELL" ? "bg-red-500 text-white" : "bg-blue-600 text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >

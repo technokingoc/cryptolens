@@ -146,6 +146,32 @@ const dict = {
   // Settings
   configSoon: { en: "Configurable settings coming soon.", pt: "Configurações editáveis em breve." },
 
+  // Shared/page copy
+  recordTx: { en: "Record Transaction", pt: "Registrar Transação" },
+  back: { en: "Back", pt: "Voltar" },
+  notes: { en: "Notes", pt: "Notas" },
+  optionalNotes: { en: "Optional notes...", pt: "Notas opcionais..." },
+  coinId: { en: "Coin ID (CoinGecko)", pt: "ID da Moeda (CoinGecko)" },
+  symbol: { en: "Symbol", pt: "Símbolo" },
+  longTermAlloc: { en: "Target Long-term Allocation", pt: "Meta de Alocação Longo Prazo" },
+  shortTermAlloc: { en: "Target Short-term Allocation", pt: "Meta de Alocação Curto Prazo" },
+  baseCurrency: { en: "Base Currency", pt: "Moeda Base" },
+  marketDataSource: { en: "Market Data Source", pt: "Fonte de Dados de Mercado" },
+  aiAnalyst: { en: "AI Analyst", pt: "Analista de IA" },
+  user: { en: "User", pt: "Utilizador" },
+  pendingCount: { en: "Pending", pt: "Pendentes" },
+  founderDecisionText: { en: "Founder Decision", pt: "Decisão do Fundador" },
+  executionEntry: { en: "Entry", pt: "Entrada" },
+  executionStopLoss: { en: "Stop-Loss", pt: "Stop-Loss" },
+  executionTarget1: { en: "Target 1", pt: "Alvo 1" },
+  executionTarget2: { en: "Target 2", pt: "Alvo 2" },
+  executionMaxLoss: { en: "Max Loss", pt: "Perda Máx." },
+  executionExpGain: { en: "Exp. Gain", pt: "Ganho Est." },
+  executionPosition: { en: "Position %", pt: "% da Posição" },
+  reviewAndDecideDesc: { en: "Wen's confluence-scored recommendations. Review and decide.", pt: "Recomendações do Wen com pontuação de confluência. Revise e decida." },
+  marketIntelligence: { en: "Market Intelligence", pt: "Inteligência de Mercado" },
+  analysisReportsTitle: { en: "Analysis Reports", pt: "Relatórios de Análise" },
+
   // Common
   signOut: { en: "Sign out", pt: "Sair" },
 } as const;

@@ -37,7 +37,7 @@ export default async function RiskPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar userName={session.user.name} />
+      <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">⚠️ {t("riskDashboard", locale)}</h1>

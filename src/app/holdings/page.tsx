@@ -27,19 +27,19 @@ export default async function HoldingsPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar userName={session.user.name} />
+      <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8 max-w-7xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">{t("holdings", locale)}</h1>
           <div className="flex items-center gap-2">
             <LanguageSwitcher locale={locale} />
-            <Link href="/transactions/new" className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition">+ {t("recordTransaction", locale)}</Link>
+            <Link href="/transactions/new" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">+ {t("recordTransaction", locale)}</Link>
           </div>
         </div>
         {enriched.length === 0 ? (
           <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
             <p className="text-gray-400 text-lg mb-4">{t("noHoldingsYet", locale)}</p>
-            <Link href="/transactions/new" className="bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800">{t("recordFirst", locale)}</Link>
+            <Link href="/transactions/new" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700">{t("recordFirst", locale)}</Link>
           </div>
         ) : (
           <>

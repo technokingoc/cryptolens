@@ -28,7 +28,7 @@ export function TransactionFilter({ locale, types, symbols, onFilter }: Transact
             onClick={() => handleType(tp)}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               typeFilter === tp
-                ? tp === "BUY" ? "bg-emerald-600 text-white" : tp === "SELL" ? "bg-red-500 text-white" : "bg-gray-900 text-white"
+                ? tp === "BUY" ? "bg-emerald-600 text-white" : tp === "SELL" ? "bg-red-500 text-white" : "bg-blue-600 text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >

@@ -36,7 +36,7 @@ export function DashboardTabs({ locale, portfolioContent, marketContent, holding
             onClick={() => setActive(tab.key)}
             className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-xs font-medium transition-all ${
               active === tab.key
-                ? "bg-gray-900 text-white"
+                ? "bg-blue-600 text-white"
                 : "text-gray-500 hover:bg-gray-50"
             }`}
           >

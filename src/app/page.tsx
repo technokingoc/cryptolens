@@ -15,9 +15,9 @@ export default async function LoginPage() {
           <p className="text-sm text-gray-400 mt-1">Track · Analyze · Decide</p>
         </div>
         <form action={async (formData: FormData) => { "use server"; await signIn("credentials", { email: formData.get("email"), password: formData.get("password"), redirectTo: "/dashboard" }); }} className="space-y-3 mb-6">
-          <input name="email" type="email" required defaultValue="anibal.santos.msc@gmail.com" placeholder="Email" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300" />
-          <input name="password" type="password" required placeholder="Password" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300" />
-          <button type="submit" className="w-full bg-gray-900 text-white rounded-xl px-6 py-3 font-medium hover:bg-gray-800 transition">Sign In</button>
+          <input name="email" type="email" required defaultValue="anibal.santos.msc@gmail.com" placeholder="Email" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300" />
+          <input name="password" type="password" required placeholder="Password" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300" />
+          <button type="submit" className="w-full bg-blue-600 text-white rounded-xl px-6 py-3 font-medium hover:bg-blue-700 transition">Sign In</button>
         </form>
         <div className="relative mb-6"><div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div><div className="relative flex justify-center text-sm"><span className="px-2 bg-white text-gray-400">or</span></div></div>
         <form action={async () => { "use server"; await signIn("google", { redirectTo: "/dashboard" }); }}>

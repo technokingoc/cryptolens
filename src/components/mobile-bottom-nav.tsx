@@ -3,31 +3,31 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { t, type Locale } from "@/lib/i18n";
 
 const mainLinks = [
-  { href: "/dashboard", label: "Dashboard", icon: "📊" },
-  { href: "/market", label: "Market", icon: "🌍" },
-  { href: "/proposals", label: "Proposals", icon: "⚡" },
-  { href: "/holdings", label: "Holdings", icon: "💰" },
-];
+  { href: "/dashboard", key: "dashboard", icon: "📊" },
+  { href: "/market", key: "market", icon: "🌍" },
+  { href: "/proposals", key: "tradeProposals", icon: "⚡" },
+  { href: "/holdings", key: "holdings", icon: "💰" },
+] as const;
 
 const moreLinks = [
-  { href: "/transactions", label: "Transactions", icon: "📝" },
-  { href: "/opportunities", label: "Opportunities", icon: "🔎" },
-  { href: "/reports", label: "Reports", icon: "📄" },
-  { href: "/costs", label: "Costs", icon: "💸" },
-  { href: "/risk", label: "Risk", icon: "⚠️" },
-  { href: "/settings", label: "Settings", icon: "⚙️" },
-];
+  { href: "/transactions", key: "transactions", icon: "📝" },
+  { href: "/opportunities", key: "opportunities", icon: "🔎" },
+  { href: "/reports", key: "reports", icon: "📄" },
+  { href: "/costs", key: "costs", icon: "💸" },
+  { href: "/risk", key: "risk", icon: "⚠️" },
+  { href: "/settings", key: "settings", icon: "⚙️" },
+] as const;
 
-export function MobileBottomNav() {
+export function MobileBottomNav({ locale = "en" }: { locale?: Locale }) {
   const pathname = usePathname();
   const [showMore, setShowMore] = useState(false);
   const isMoreActive = moreLinks.some((l) => pathname === l.href);
 
   return (
     <>
-      {/* More menu overlay */}
       {showMore && (
         <>
           <div className="md:hidden fixed inset-0 bg-black/20 z-40" onClick={() => setShowMore(false)} />
@@ -40,12 +40,12 @@ export function MobileBottomNav() {
                   onClick={() => setShowMore(false)}
                   className={`flex flex-col items-center gap-1 py-3 rounded-xl text-xs transition ${
                     pathname === l.href
-                      ? "bg-gray-100 text-gray-900 font-medium"
+                      ? "bg-blue-50 text-blue-700 font-medium"
                       : "text-gray-500 hover:bg-gray-50"
                   }`}
                 >
                   <span className="text-lg">{l.icon}</span>
-                  <span>{l.label}</span>
+                  <span>{t(l.key, locale)}</span>
                 </Link>
               ))}
             </div>
@@ -53,7 +53,6 @@ export function MobileBottomNav() {
         </>
       )}
 
-      {/* Bottom nav bar */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
         <div className="flex items-center justify-around h-16 px-2">
           {mainLinks.map((l) => (
@@ -62,22 +61,22 @@ export function MobileBottomNav() {
               href={l.href}
               className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg text-[11px] transition ${
                 pathname === l.href
-                  ? "text-gray-900 font-medium"
+                  ? "text-blue-700 font-medium"
                   : "text-gray-400"
               }`}
             >
               <span className="text-lg">{l.icon}</span>
-              <span>{l.label}</span>
+              <span>{t(l.key, locale)}</span>
             </Link>
           ))}
           <button
             onClick={() => setShowMore(!showMore)}
             className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg text-[11px] transition ${
-              isMoreActive || showMore ? "text-gray-900 font-medium" : "text-gray-400"
+              isMoreActive || showMore ? "text-blue-700 font-medium" : "text-gray-400"
             }`}
           >
             <span className="text-lg">•••</span>
-            <span>More</span>
+            <span>{t("more", locale)}</span>
           </button>
         </div>
       </nav>
