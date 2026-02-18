@@ -149,6 +149,26 @@ const dict = {
 
   // Settings
   configSoon: { en: "Configurable settings coming soon.", pt: "Configurações editáveis em breve." },
+  profileSection: { en: "Profile", pt: "Perfil" },
+  notificationPrefs: { en: "Notification Preferences", pt: "Preferências de Notificação" },
+  displayPrefs: { en: "Display Preferences", pt: "Preferências de Exibição" },
+  emailNotifications: { en: "Email Notifications", pt: "Notificações por Email" },
+  proposalAlerts: { en: "Proposal Alerts", pt: "Alertas de Propostas" },
+  marketAlerts: { en: "Market Alerts", pt: "Alertas de Mercado" },
+  weeklyDigest: { en: "Weekly Digest", pt: "Resumo Semanal" },
+  theme: { en: "Theme", pt: "Tema" },
+  light: { en: "Light", pt: "Claro" },
+  language: { en: "Language", pt: "Idioma" },
+  compactMode: { en: "Compact Mode", pt: "Modo Compacto" },
+  tradingParameters: { en: "Trading Parameters", pt: "Parâmetros de Trading" },
+  dataIntegration: { en: "Data & Integration", pt: "Dados e Integração" },
+  symbolFilter: { en: "Symbol", pt: "Símbolo" },
+  allSymbols: { en: "All Symbols", pt: "Todos os Símbolos" },
+  noFilteredProposals: { en: "No proposals match the current filters", pt: "Nenhuma proposta corresponde aos filtros atuais" },
+  rationale: { en: "Rationale", pt: "Justificativa" },
+  entryExit: { en: "Entry / Exit", pt: "Entrada / Saída" },
+  riskNotes: { en: "Risk Notes", pt: "Notas de Risco" },
+  clickToExpand: { en: "Click to expand details", pt: "Clique para expandir detalhes" },
 
   // Shared/page copy
   recordTx: { en: "Record Transaction", pt: "Registrar Transação" },

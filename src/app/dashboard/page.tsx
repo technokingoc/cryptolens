@@ -13,6 +13,7 @@ import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { Zap, AlertTriangle, Radio } from "lucide-react";
 
 async function fetchFearGreed() {
   try {
@@ -73,7 +74,7 @@ export default async function DashboardPage() {
 
   const pendingSection = pendingProposals.length > 0 ? (
     <div className="bg-white border border-amber-200 rounded-xl p-4 mb-6">
-      <h2 className="font-semibold text-amber-700 mb-3 text-sm">⚡ {t("awaitingDecision", locale)}</h2>
+      <h2 className="font-semibold text-amber-700 mb-3 text-sm flex items-center gap-1.5"><Zap className="w-4 h-4" /> {t("awaitingDecision", locale)}</h2>
       <div className="space-y-2">
         {pendingProposals.map((p) => (
           <Link key={p.id} href="/proposals" className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 hover:bg-gray-100 transition">
@@ -101,7 +102,7 @@ export default async function DashboardPage() {
           <AllocBar label={t("shortTerm", locale)} pct={allocation.shortTerm.pct} value={allocation.shortTerm.value} color="light" />
         </div>
         {allocation.deviation > 10 && (
-          <p className="text-amber-600 text-xs mt-3">⚠️ {t("deviation", locale)}: {allocation.deviation.toFixed(1)}%</p>
+          <p className="text-amber-600 text-xs mt-3 flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5" /> {t("deviation", locale)}: {allocation.deviation.toFixed(1)}%</p>
         )}
       </div>
 
@@ -131,7 +132,7 @@ export default async function DashboardPage() {
 
   const marketSection = indicators.length > 0 ? (
     <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
-      <h2 className="font-semibold text-gray-700 mb-3 text-sm">📡 {t("marketIndicators", locale)}</h2>
+      <h2 className="font-semibold text-gray-700 mb-3 text-sm flex items-center gap-1.5"><Radio className="w-4 h-4" /> {t("marketIndicators", locale)}</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {indicators.map((ind) => (
           <div key={ind.id} className="bg-gray-50 rounded-lg p-3">
@@ -204,7 +205,7 @@ export default async function DashboardPage() {
           <div className="flex items-center gap-3">
             {pendingProposals.length > 0 && (
               <Link href="/proposals" className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition">
-                ⚡ {pendingProposals.length} {t("pendingProposals", locale)}
+                <Zap className="w-4 h-4" /> {pendingProposals.length} {t("pendingProposals", locale)}
               </Link>
             )}
           </div>

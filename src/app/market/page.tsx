@@ -8,6 +8,7 @@ import { Sidebar } from "@/components/sidebar";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
+import { Globe, TrendingUp, Radio, BarChart3 } from "lucide-react";
 
 async function fetchFearGreed() {
   try { const r = await fetch("https://api.alternative.me/fng/?limit=7", { next: { revalidate: 300 } }); return await r.json(); } catch { return null; }
@@ -43,7 +44,7 @@ export default async function MarketPage() {
       <Sidebar userName={session.user?.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-7xl">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">🌍 {t("marketIntelligence", locale)}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><Globe className="w-6 h-6 text-gray-400" /> {t("marketIntelligence", locale)}</h1>
         </div>
 
         {gd && (
@@ -57,7 +58,7 @@ export default async function MarketPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
           <div className="bg-white border border-gray-200 rounded-xl p-5">
-            <h2 className="font-semibold text-gray-700 mb-4 text-sm">😱 {t("fearGreedIndex", locale)}</h2>
+            <h2 className="font-semibold text-gray-700 mb-4 text-sm flex items-center gap-1.5"><BarChart3 className="w-4 h-4" /> {t("fearGreedIndex", locale)}</h2>
             {fngCurrent ? (
               <>
                 <div className="text-center mb-4">
@@ -74,14 +75,14 @@ export default async function MarketPage() {
                   ))}
                 </div>
                 {parseInt(fngCurrent.value) <= 20 && (
-                  <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3"><p className="text-red-600 text-xs">🔴 {t("extremeFear", locale)}</p></div>
+                  <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3"><p className="text-red-600 text-xs">{t("extremeFear", locale)}</p></div>
                 )}
               </>
             ) : <p className="text-gray-400 text-sm">{t("unableToLoad", locale)}</p>}
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-5">
-            <h2 className="font-semibold text-gray-700 mb-4 text-sm">📡 {t("wensIndicators", locale)}</h2>
+            <h2 className="font-semibold text-gray-700 mb-4 text-sm flex items-center gap-1.5"><Radio className="w-4 h-4" /> {t("wensIndicators", locale)}</h2>
             {indicators.length === 0 ? <p className="text-gray-400 text-sm">{t("willPopulate", locale)}</p> : (
               <div className="space-y-3">
                 {indicators.map((ind) => (
@@ -95,7 +96,7 @@ export default async function MarketPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-5">
-            <h2 className="font-semibold text-gray-700 mb-4 text-sm">🔥 {t("trending", locale)}</h2>
+            <h2 className="font-semibold text-gray-700 mb-4 text-sm flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> {t("trending", locale)}</h2>
             {trending?.coins ? (
               <div className="space-y-2">
                 {trending.coins.slice(0, 8).map((c: { item: { id: string; thumb?: string; name: string; symbol: string; market_cap_rank?: number } }) => (
@@ -111,7 +112,7 @@ export default async function MarketPage() {
 
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100">
-            <h2 className="font-semibold text-gray-700 text-sm">💹 {t("priceCache", locale)}</h2>
+            <h2 className="font-semibold text-gray-700 text-sm flex items-center gap-1.5"><BarChart3 className="w-4 h-4" /> {t("priceCache", locale)}</h2>
             <p className="text-[11px] text-gray-400 mt-0.5">{t("updatedByWen", locale)}</p>
           </div>
           {cached.length === 0 ? <p className="p-5 text-gray-400 text-sm">{t("noCachedPrices", locale)}</p> : (

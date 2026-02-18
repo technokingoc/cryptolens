@@ -8,8 +8,10 @@ import { Sidebar } from "@/components/sidebar";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
+import { FileText, Globe, Zap, Briefcase, AlertCircle } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const typeIcon: Record<string, string> = { market_report: "🌍", trade_analysis: "⚡", portfolio_review: "💼", alert: "🚨" };
+const typeIcon: Record<string, LucideIcon> = { market_report: Globe, trade_analysis: Zap, portfolio_review: Briefcase, alert: AlertCircle };
 
 export default async function ReportsPage() {
   const session = await auth();
@@ -26,7 +28,7 @@ export default async function ReportsPage() {
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">📄 {t("analysisReports", locale)}</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1 flex items-center gap-2"><FileText className="w-6 h-6 text-gray-400" /> {t("analysisReports", locale)}</h1>
             <p className="text-gray-400 text-sm">{t("reportsDesc", locale)}</p>
           </div>
         </div>
@@ -42,7 +44,7 @@ export default async function ReportsPage() {
               <details key={r.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden group">
                 <summary className="px-5 py-4 cursor-pointer hover:bg-gray-50 transition flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-xl">{typeIcon[r.reportType] || "📄"}</span>
+                    {(() => { const Icon = typeIcon[r.reportType] || FileText; return <Icon className="w-5 h-5 text-gray-400" />; })()}
                     <div>
                       <p className="font-semibold text-gray-900 text-sm">{r.title}</p>
                       <p className="text-[11px] text-gray-400">{r.reportType.replace("_", " ")} · {r.createdAt?.toLocaleString()}</p>

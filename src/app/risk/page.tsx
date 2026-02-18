@@ -10,6 +10,7 @@ import { enrichHoldings, calcAllocation } from "@/lib/portfolio";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
+import { ShieldAlert, AlertTriangle, CheckCircle2 } from "lucide-react";
 
 export default async function RiskPage() {
   const session = await auth();
@@ -39,7 +40,7 @@ export default async function RiskPage() {
       <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">⚠️ {t("riskDashboard", locale)}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><ShieldAlert className="w-6 h-6 text-gray-400" /> {t("riskDashboard", locale)}</h1>
         </div>
 
         {enriched.length === 0 ? (
@@ -57,10 +58,10 @@ export default async function RiskPage() {
               </div>
               {allocation.deviation > 10 ? (
                 <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-3">
-                  <p className="text-amber-700 text-xs">⚠️ {t("deviation", locale)}: {allocation.deviation.toFixed(1)}%. {t("considerRebalancing", locale)}</p>
+                  <p className="text-amber-700 text-xs flex items-center gap-1"><AlertTriangle className="w-3.5 h-3.5" /> {t("deviation", locale)}: {allocation.deviation.toFixed(1)}%. {t("considerRebalancing", locale)}</p>
                 </div>
               ) : (
-                <p className="text-emerald-600 text-xs mt-4">✅ {t("withinRange", locale)} ({allocation.deviation.toFixed(1)}%)</p>
+                <p className="text-emerald-600 text-xs mt-4 flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> {t("withinRange", locale)} ({allocation.deviation.toFixed(1)}%)</p>
               )}
             </div>
 
@@ -77,7 +78,7 @@ export default async function RiskPage() {
                     <div className="w-full h-2 bg-gray-100 rounded-full">
                       <div className={`h-2 rounded-full ${c.pct > 30 ? "bg-red-400" : c.pct > 20 ? "bg-amber-400" : "bg-emerald-400"}`} style={{ width: `${Math.min(100, c.pct)}%` }} />
                     </div>
-                    {c.pct > 30 && <p className="text-red-500 text-[11px] mt-0.5">⚠️ {t("highConcentration", locale)}</p>}
+                    {c.pct > 30 && <p className="text-red-500 text-[11px] mt-0.5 flex items-center gap-0.5"><AlertTriangle className="w-3 h-3" /> {t("highConcentration", locale)}</p>}
                   </div>
                 ))}
               </div>

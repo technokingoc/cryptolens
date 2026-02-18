@@ -9,6 +9,7 @@ import { watchOpportunity, passOpportunity } from "@/lib/opportunity-actions";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
+import { Search, ShieldCheck, Brain, Lightbulb, Eye } from "lucide-react";
 
 function riskBadge(score: number, locale: Locale) {
   if (score <= 20) return { bg: "bg-emerald-50 text-emerald-700 border-emerald-200", label: locale === "pt" ? "Risco Baixo" : "Low Risk" };
@@ -45,7 +46,7 @@ export default async function OpportunitiesPage() {
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">🔎 {t("opportunitiesTitle", locale)}</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1 flex items-center gap-2"><Search className="w-6 h-6 text-gray-400" /> {t("opportunitiesTitle", locale)}</h1>
             <p className="text-gray-400 text-sm">{t("opportunitiesDesc", locale)}</p>
           </div>
         </div>
@@ -105,13 +106,13 @@ function OppCard({ opp: o, showActions, locale }: { opp: Record<string, unknown>
           {o.volume24h && <NumCard label={t("volume", locale)} value={`$${(parseFloat(o.volume24h) / 1e6).toFixed(2)}M`} />}
         </div>
 
-        {flags.length > 0 && <div className="mb-4"><p className="text-xs text-gray-400 mb-2 font-medium">🛡️ {t("riskAssessment", locale)}</p><div className="bg-gray-50 rounded-lg p-3 space-y-1">{flags.map((f, i) => <p key={i} className="text-sm text-gray-600">{f}</p>)}</div></div>}
-        {o.wenVerdict && <div className="mb-4"><p className="text-xs text-gray-400 mb-1 font-medium">🧠 {t("wensVerdict", locale)}</p><p className="text-gray-600 text-sm leading-relaxed">{o.wenVerdict}</p></div>}
-        {o.thesis && <div className="mb-4"><p className="text-xs text-gray-400 mb-1 font-medium">💡 {t("thesis", locale)}</p><p className="text-gray-600 text-sm leading-relaxed">{o.thesis}</p></div>}
+        {flags.length > 0 && <div className="mb-4"><p className="text-xs text-gray-400 mb-2 font-medium flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /> {t("riskAssessment", locale)}</p><div className="bg-gray-50 rounded-lg p-3 space-y-1">{flags.map((f, i) => <p key={i} className="text-sm text-gray-600">{f}</p>)}</div></div>}
+        {o.wenVerdict && <div className="mb-4"><p className="text-xs text-gray-400 mb-1 font-medium flex items-center gap-1"><Brain className="w-3.5 h-3.5" /> {t("wensVerdict", locale)}</p><p className="text-gray-600 text-sm leading-relaxed">{o.wenVerdict}</p></div>}
+        {o.thesis && <div className="mb-4"><p className="text-xs text-gray-400 mb-1 font-medium flex items-center gap-1"><Lightbulb className="w-3.5 h-3.5" /> {t("thesis", locale)}</p><p className="text-gray-600 text-sm leading-relaxed">{o.thesis}</p></div>}
 
         {showActions && o.status === "new" && (
           <div className="flex gap-3 pt-4 border-t border-gray-100">
-            <form action={watchOpportunity}><input type="hidden" name="id" value={o.id} /><button type="submit" className="bg-amber-50 text-amber-700 border border-amber-200 px-5 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition">👀 {t("watch", locale)}</button></form>
+            <form action={watchOpportunity}><input type="hidden" name="id" value={o.id} /><button type="submit" className="bg-amber-50 text-amber-700 border border-amber-200 px-5 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition inline-flex items-center gap-1.5"><Eye className="w-4 h-4" /> {t("watch", locale)}</button></form>
             <form action={passOpportunity}><input type="hidden" name="id" value={o.id} /><button type="submit" className="bg-gray-50 text-gray-500 border border-gray-200 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition">{t("skip", locale)}</button></form>
           </div>
         )}
