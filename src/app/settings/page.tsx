@@ -7,6 +7,7 @@ import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import { Settings, User, Bell, Monitor, BarChart3, Database } from "lucide-react";
+import { DisplayDensityToggle } from "@/components/display-density-toggle";
 
 export default async function SettingsPage() {
   const session = await auth();
@@ -57,7 +58,9 @@ export default async function SettingsPage() {
           <Section icon={<Monitor className="w-4 h-4" />} title={t("displayPrefs", locale)}>
             <Row label={t("theme", locale)} value={t("light", locale)} />
             <Row label={t("language", locale)} value={locale === "pt" ? "Português" : "English"} />
-            <ToggleRow label={t("compactMode", locale)} checked={false} />
+            <CustomRow label={t("density", locale)}>
+              <DisplayDensityToggle locale={locale} />
+            </CustomRow>
           </Section>
 
           <p className="text-gray-300 text-xs pt-2">{t("configSoon", locale)}</p>
@@ -92,6 +95,15 @@ function ToggleRow({ label, checked }: { label: string; checked: boolean }) {
       <div className={`w-9 h-5 rounded-full relative transition-colors ${checked ? "bg-blue-600" : "bg-gray-200"}`}>
         <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${checked ? "translate-x-4" : "translate-x-0.5"}`} />
       </div>
+    </div>
+  );
+}
+
+function CustomRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex justify-between items-center py-3 gap-3">
+      <span className="text-sm text-gray-500">{label}</span>
+      {children}
     </div>
   );
 }

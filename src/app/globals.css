@@ -9,4 +9,36 @@ body {
   background: #f8f9fb;
   color: #1a1a2e;
   font-family: Arial, Helvetica, sans-serif;
+  transition: font-size 120ms ease;
+}
+
+body[data-density="compact"] {
+  font-size: 14px;
+}
+
+body[data-density="compact"] .rounded-xl {
+  border-radius: 0.625rem;
+}
+
+body[data-density="compact"] table th,
+body[data-density="compact"] table td {
+  padding-top: 0.45rem !important;
+  padding-bottom: 0.45rem !important;
+}
+
+body[data-density="compact"] .density-card {
+  padding: 0.75rem !important;
+}
+
+body[data-density="compact"] .density-card-lg {
+  padding: 1rem !important;
+}
+
+body[data-density="compact"] .density-row {
+  padding-top: 0.45rem !important;
+  padding-bottom: 0.45rem !important;
+}
+
+body[data-density="compact"] .density-gap {
+  gap: 0.5rem !important;
 }

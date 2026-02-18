@@ -10,6 +10,7 @@ import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import { ProposalsClient } from "@/components/proposals-client";
+import { OnboardingHint } from "@/components/onboarding-hint";
 
 export default async function ProposalsPage() {
   const session = await auth();
@@ -33,6 +34,7 @@ export default async function ProposalsPage() {
       <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Proposals" }]} />
+        <OnboardingHint hintKey="proposals" textKey="onboardingProposalsTip" locale={locale} />
         <ProposalsClient proposals={serialized} locale={locale} />
       </main>
     </div>

@@ -4,7 +4,8 @@ import { useState, useMemo } from "react";
 import { t } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { approveProposal, rejectProposal } from "@/lib/proposal-actions";
-import { Zap, Bell, ClipboardList, Lightbulb, BarChart3, Ruler, AlertTriangle, CheckCircle2, XCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Zap, Bell, ClipboardList, Lightbulb, BarChart3, Ruler, AlertTriangle, CheckCircle2, XCircle, ChevronDown, ChevronUp, Bookmark, Trash2 } from "lucide-react";
+import { OnboardingHint } from "@/components/onboarding-hint";
 
 const pillarLabels = [
   { key: "pillarTechnical", label: "Technical", Icon: BarChart3 },
@@ -28,6 +29,15 @@ type Proposal = {
 
 const STATUS_FILTERS = ["all", "pending", "approved", "rejected"] as const;
 const ACTION_FILTERS = ["all", "BUY", "SELL"] as const;
+const PRESETS_KEY = "cryptolens-proposals-presets";
+
+type ProposalPreset = {
+  id: string;
+  name: string;
+  statusFilter: string;
+  actionFilter: string;
+  symbolFilter: string;
+};
 
 function scoreColor(s: number) {
   if (s >= 2) return "text-emerald-700 bg-emerald-50 border-emerald-200";
@@ -62,6 +72,23 @@ export function ProposalsClient({ proposals, locale }: { proposals: Proposal[]; 
   const [actionFilter, setActionFilter] = useState<string>("all");
   const [symbolFilter, setSymbolFilter] = useState<string>("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [presets, setPresets] = useState<ProposalPreset[]>(() => {
+    if (typeof window === "undefined") return [];
+    const raw = localStorage.getItem(PRESETS_KEY);
+    if (!raw) return [];
+    try {
+      const parsed = JSON.parse(raw) as ProposalPreset[];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  });
+  const [presetName, setPresetName] = useState("");
+
+  const persistPresets = (next: ProposalPreset[]) => {
+    setPresets(next);
+    localStorage.setItem(PRESETS_KEY, JSON.stringify(next));
+  };
 
   const symbols = useMemo(() => [...new Set(proposals.map((p) => p.symbol))].sort(), [proposals]);
 
@@ -83,6 +110,32 @@ export function ProposalsClient({ proposals, locale }: { proposals: Proposal[]; 
   const countByStatus = (s: string) => s === "all" ? proposals.length : proposals.filter((p) => p.status === s).length;
   const countByAction = (a: string) => a === "all" ? proposals.length : proposals.filter((p) => p.action === a).length;
 
+  const savePreset = () => {
+    if (!presetName.trim()) return;
+    const next: ProposalPreset[] = [
+      {
+        id: `${Date.now()}`,
+        name: presetName.trim(),
+        statusFilter,
+        actionFilter,
+        symbolFilter,
+      },
+      ...presets,
+    ].slice(0, 8);
+    persistPresets(next);
+    setPresetName("");
+  };
+
+  const applyPreset = (preset: ProposalPreset) => {
+    setStatusFilter(preset.statusFilter);
+    setActionFilter(preset.actionFilter);
+    setSymbolFilter(preset.symbolFilter);
+  };
+
+  const removePreset = (id: string) => {
+    persistPresets(presets.filter((p) => p.id !== id));
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -93,6 +146,38 @@ export function ProposalsClient({ proposals, locale }: { proposals: Proposal[]; 
           </h1>
           <p className="text-gray-400 text-sm">{t("reviewAndDecideDesc", locale)}</p>
         </div>
+      </div>
+
+      <OnboardingHint hintKey="proposals" textKey="onboardingProposalsTip" locale={locale} />
+
+      <div className="mb-4 bg-white border border-gray-200 rounded-xl p-4 density-card">
+        <p className="text-xs font-semibold text-gray-600 mb-2 flex items-center gap-1.5"><Bookmark className="w-3.5 h-3.5" /> {t("savedPresets", locale)}</p>
+        <div className="flex flex-col sm:flex-row gap-2 mb-3">
+          <input
+            value={presetName}
+            onChange={(e) => setPresetName(e.target.value)}
+            placeholder={t("presetName", locale)}
+            className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm"
+          />
+          <button onClick={savePreset} className="px-3 py-2 rounded-lg text-sm bg-blue-600 text-white hover:bg-blue-700">
+            {t("savePreset", locale)}
+          </button>
+        </div>
+        {presets.length === 0 ? (
+          <p className="text-xs text-gray-400">{t("noPresetsYet", locale)}</p>
+        ) : (
+          <div className="space-y-1.5">
+            {presets.map((preset) => (
+              <div key={preset.id} className="flex items-center justify-between rounded-lg bg-gray-50 density-card px-3 py-2">
+                <div className="text-sm text-gray-700">{preset.name}</div>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => applyPreset(preset)} className="text-xs text-blue-600 hover:text-blue-700">{t("applyPreset", locale)}</button>
+                  <button onClick={() => removePreset(preset.id)} className="text-xs text-red-500 hover:text-red-600 inline-flex items-center gap-1"><Trash2 className="w-3 h-3" />{t("deletePreset", locale)}</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Filters */}
@@ -152,7 +237,7 @@ function ProposalCard({ proposal: p, locale, expanded, onToggle }: {
   const showActions = p.status === "pending";
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden density-card">
       {/* Header — always visible, clickable */}
       <button onClick={onToggle} className="w-full px-5 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 hover:bg-gray-50 transition text-left">
         <div className="flex items-center gap-3 flex-wrap">

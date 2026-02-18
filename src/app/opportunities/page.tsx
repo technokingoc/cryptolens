@@ -12,6 +12,7 @@ import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import { watchOpportunity, passOpportunity } from "@/lib/opportunity-actions";
 import { Search } from "lucide-react";
+import { OnboardingHint } from "@/components/onboarding-hint";
 
 export default async function OpportunitiesPage() {
   const session = await auth();
@@ -61,6 +62,7 @@ export default async function OpportunitiesPage() {
             <p className="text-gray-400 text-sm">{t("opportunitiesDesc", locale)}</p>
           </div>
         </div>
+        <OnboardingHint hintKey="opportunities" textKey="onboardingOpportunitiesTip" locale={locale} />
         <OpportunitiesClient opps={serialized} locale={locale} watchAction={watchOpportunity} passAction={passOpportunity} />
       </main>
     </div>

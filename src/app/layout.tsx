@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
+import { UiPreferencesBootstrap } from "@/components/ui-preferences-bootstrap";
 import { getLocaleFromCookie } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import "./globals.css";
@@ -21,6 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale}>
       <body className="antialiased min-h-screen">
+        <UiPreferencesBootstrap />
         {children}
         <MobileBottomNav locale={locale} />
       </body>

@@ -14,6 +14,8 @@ import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Zap, AlertTriangle, Radio } from "lucide-react";
+import { DashboardAlertsCenter } from "@/components/dashboard-alerts-center";
+import { OnboardingHint } from "@/components/onboarding-hint";
 
 async function fetchFearGreed() {
   try {
@@ -60,7 +62,7 @@ export default async function DashboardPage() {
       <StatCard label={t("invested", locale)} value={`$${stats.totalCostBasis.toFixed(2)}`} />
       <StatCard label={t("unrealizedPnl", locale)} value={`$${stats.totalUnrealizedPnl.toFixed(2)}`} sub={`${stats.unrealizedPnlPct >= 0 ? "+" : ""}${stats.unrealizedPnlPct.toFixed(1)}%`} positive={stats.totalUnrealizedPnl >= 0} />
       <StatCard label={t("netROI", locale)} value={`${stats.netROI >= 0 ? "+" : ""}${stats.netROI.toFixed(1)}%`} sub={`${t("costs", locale)}: $${monthlyCosts.toFixed(2)}/mo`} positive={stats.netROI >= 0} />
-      <div className="bg-white border border-gray-200 rounded-xl p-4">
+      <div className="bg-white border border-gray-200 rounded-xl p-4 density-card">
         <p className="text-[11px] text-gray-400 uppercase tracking-wide">{t("fearGreed", locale)}</p>
         {fngValue !== null ? (
           <>
@@ -73,7 +75,7 @@ export default async function DashboardPage() {
   );
 
   const pendingSection = pendingProposals.length > 0 ? (
-    <div className="bg-white border border-amber-200 rounded-xl p-4 mb-6">
+    <div className="bg-white border border-amber-200 rounded-xl p-4 density-card mb-6">
       <h2 className="font-semibold text-amber-700 mb-3 text-sm flex items-center gap-1.5"><Zap className="w-4 h-4" /> {t("awaitingDecision", locale)}</h2>
       <div className="space-y-2">
         {pendingProposals.map((p) => (
@@ -95,7 +97,7 @@ export default async function DashboardPage() {
 
   const portfolioSection = (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6">
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white border border-gray-200 rounded-xl p-5 density-card-lg">
         <h2 className="font-semibold text-gray-700 mb-4 text-sm">{t("allocation", locale)} ({t("targetBalance", locale)})</h2>
         <div className="space-y-3">
           <AllocBar label={t("longTerm", locale)} pct={allocation.longTerm.pct} value={allocation.longTerm.value} color="gray" />
@@ -106,7 +108,7 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white border border-gray-200 rounded-xl p-5 density-card-lg">
         <h2 className="font-semibold text-gray-700 mb-4 text-sm">{t("topMovers", locale)}</h2>
         {enriched.length === 0 ? (
           <p className="text-gray-400 text-sm">{t("noHoldings", locale)}</p>
@@ -131,7 +133,7 @@ export default async function DashboardPage() {
   );
 
   const marketSection = indicators.length > 0 ? (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
+    <div className="bg-white border border-gray-200 rounded-xl p-5 density-card-lg mb-6">
       <h2 className="font-semibold text-gray-700 mb-3 text-sm flex items-center gap-1.5"><Radio className="w-4 h-4" /> {t("marketIndicators", locale)}</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {indicators.map((ind) => (
@@ -182,12 +184,12 @@ export default async function DashboardPage() {
           <tbody className="divide-y divide-gray-50">
             {enriched.map((h) => (
               <tr key={h.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium text-gray-900">{h.symbol} <span className="text-gray-400 text-xs">{h.name}</span></td>
-                <td className="px-4 py-3 hidden sm:table-cell"><span className="px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-500">{h.bucket === "long-term" ? t("long", locale) : t("short", locale)}</span></td>
-                <td className="px-4 py-3 text-right text-gray-500 hidden md:table-cell">{h.quantity.toFixed(6)}</td>
-                <td className="px-4 py-3 text-right text-gray-600">${h.currentPrice.toFixed(2)}</td>
-                <td className="px-4 py-3 text-right text-gray-900 font-medium">${h.currentValue.toFixed(2)}</td>
-                <td className={`px-4 py-3 text-right font-medium ${h.unrealizedPnl >= 0 ? "text-emerald-600" : "text-red-500"}`}>{h.unrealizedPnl >= 0 ? "+" : ""}${h.unrealizedPnl.toFixed(2)}</td>
+                <td className="px-4 py-3 density-row font-medium text-gray-900">{h.symbol} <span className="text-gray-400 text-xs">{h.name}</span></td>
+                <td className="px-4 py-3 density-row hidden sm:table-cell"><span className="px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-500">{h.bucket === "long-term" ? t("long", locale) : t("short", locale)}</span></td>
+                <td className="px-4 py-3 density-row text-right text-gray-500 hidden md:table-cell">{h.quantity.toFixed(6)}</td>
+                <td className="px-4 py-3 density-row text-right text-gray-600">${h.currentPrice.toFixed(2)}</td>
+                <td className="px-4 py-3 density-row text-right text-gray-900 font-medium">${h.currentValue.toFixed(2)}</td>
+                <td className={`px-4 py-3 density-row text-right font-medium ${h.unrealizedPnl >= 0 ? "text-emerald-600" : "text-red-500"}`}>{h.unrealizedPnl >= 0 ? "+" : ""}${h.unrealizedPnl.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
@@ -210,6 +212,10 @@ export default async function DashboardPage() {
             )}
           </div>
         </div>
+
+        <OnboardingHint hintKey="dashboard" textKey="onboardingDashboardTip" locale={locale} />
+
+        <DashboardAlertsCenter locale={locale} symbols={enriched.map((h) => h.symbol)} />
 
         {/* Stats — always visible */}
         {statsSection}
@@ -238,7 +244,7 @@ export default async function DashboardPage() {
 
 function StatCard({ label, value, sub, positive }: { label: string; value: string; sub?: string; positive?: boolean }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 density-card">
       <p className="text-[11px] text-gray-400 uppercase tracking-wide">{label}</p>
       <p className={`text-xl font-bold mt-1 ${positive === true ? "text-emerald-600" : positive === false ? "text-red-500" : "text-gray-900"}`}>{value}</p>
       {sub && <p className={`text-xs mt-0.5 ${positive === true ? "text-emerald-500" : positive === false ? "text-red-400" : "text-gray-400"}`}>{sub}</p>}

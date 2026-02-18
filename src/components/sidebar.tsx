@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { t, type Locale, type DictKey } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { DensityToggle } from "@/components/density-toggle";
 
 type NavLink = {
   href: string;
@@ -105,6 +106,7 @@ export function Sidebar({ userName, locale = "en" }: { userName?: string | null;
       <header className="hidden md:flex fixed top-0 left-64 right-0 h-16 bg-white border-b border-gray-200 items-center justify-between px-6 z-40">
         <h1 className="text-lg font-semibold text-gray-900">{t(titleKey, locale)}</h1>
         <div className="flex items-center gap-3">
+          <DensityToggle locale={locale} />
           <LanguageSwitcher locale={locale} />
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-gray-100 border border-gray-200" />
@@ -145,7 +147,8 @@ export function Sidebar({ userName, locale = "en" }: { userName?: string | null;
             <Settings className="w-4 h-4" />
             <span>{t(settingsLink.key, locale)}</span>
           </Link>
-          <div className="px-2">
+          <div className="px-2 space-y-2">
+            <DensityToggle locale={locale} />
             <LanguageSwitcher locale={locale} />
           </div>
           <div className="px-2">

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Filter, X, Eye, Search, ShieldCheck, Brain, Lightbulb, SlidersHorizontal } from "lucide-react";
+import { X, Eye, ShieldCheck, Brain, Lightbulb, SlidersHorizontal, Bookmark, Trash2 } from "lucide-react";
 import { t, type Locale } from "@/lib/i18n";
+import { OnboardingHint } from "@/components/onboarding-hint";
 
 type Opp = {
   id: string;
@@ -29,6 +30,17 @@ type Opp = {
 
 type SortOption = "newest" | "oldest" | "riskLow" | "riskHigh" | "score";
 
+type OpportunityPreset = {
+  id: string;
+  name: string;
+  chainFilter: string;
+  sourceFilter: string;
+  ageFilter: string;
+  sort: SortOption;
+};
+
+const PRESETS_KEY = "cryptolens-opportunities-presets";
+
 function riskBadge(score: number, locale: Locale) {
   if (score <= 20) return { bg: "bg-emerald-50 text-emerald-700 border-emerald-200", label: locale === "pt" ? "Risco Baixo" : "Low Risk" };
   if (score <= 40) return { bg: "bg-yellow-50 text-yellow-700 border-yellow-200", label: locale === "pt" ? "Moderado" : "Moderate" };
@@ -53,6 +65,23 @@ export function OpportunitiesClient({ opps, locale, watchAction, passAction }: {
   const [ageFilter, setAgeFilter] = useState<string>("");
   const [sort, setSort] = useState<SortOption>("newest");
   const [showFilters, setShowFilters] = useState(false);
+  const [presets, setPresets] = useState<OpportunityPreset[]>(() => {
+    if (typeof window === "undefined") return [];
+    const raw = localStorage.getItem(PRESETS_KEY);
+    if (!raw) return [];
+    try {
+      const parsed = JSON.parse(raw) as OpportunityPreset[];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  });
+  const [presetName, setPresetName] = useState("");
+
+  const persistPresets = (next: OpportunityPreset[]) => {
+    setPresets(next);
+    localStorage.setItem(PRESETS_KEY, JSON.stringify(next));
+  };
 
   const chains = useMemo(() => [...new Set(opps.map((o) => o.chain).filter(Boolean))] as string[], [opps]);
   const sources = useMemo(() => [...new Set(opps.map((o) => o.source).filter(Boolean))] as string[], [opps]);
@@ -98,8 +127,58 @@ export function OpportunitiesClient({ opps, locale, watchAction, passAction }: {
     setSort("newest");
   };
 
+  const savePreset = () => {
+    if (!presetName.trim()) return;
+    const next: OpportunityPreset[] = [{
+      id: `${Date.now()}`,
+      name: presetName.trim(),
+      chainFilter,
+      sourceFilter,
+      ageFilter,
+      sort,
+    }, ...presets].slice(0, 8);
+    persistPresets(next);
+    setPresetName("");
+  };
+
+  const applyPreset = (preset: OpportunityPreset) => {
+    setChainFilter(preset.chainFilter);
+    setSourceFilter(preset.sourceFilter);
+    setAgeFilter(preset.ageFilter);
+    setSort(preset.sort);
+  };
+
+  const removePreset = (id: string) => {
+    persistPresets(presets.filter((p) => p.id !== id));
+  };
+
   return (
     <>
+      <OnboardingHint hintKey="opportunities" textKey="onboardingOpportunitiesTip" locale={locale} />
+
+      <div className="mb-4 bg-white border border-gray-200 rounded-xl p-4 density-card">
+        <p className="text-xs font-semibold text-gray-600 mb-2 flex items-center gap-1.5"><Bookmark className="w-3.5 h-3.5" /> {t("savedPresets", locale)}</p>
+        <div className="flex flex-col sm:flex-row gap-2 mb-3">
+          <input value={presetName} onChange={(e) => setPresetName(e.target.value)} placeholder={t("presetName", locale)} className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+          <button onClick={savePreset} className="px-3 py-2 rounded-lg text-sm bg-blue-600 text-white hover:bg-blue-700">{t("savePreset", locale)}</button>
+        </div>
+        {presets.length === 0 ? (
+          <p className="text-xs text-gray-400">{t("noPresetsYet", locale)}</p>
+        ) : (
+          <div className="space-y-1.5">
+            {presets.map((preset) => (
+              <div key={preset.id} className="flex items-center justify-between rounded-lg bg-gray-50 density-card px-3 py-2">
+                <span className="text-sm text-gray-700">{preset.name}</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => applyPreset(preset)} className="text-xs text-blue-600 hover:text-blue-700">{t("applyPreset", locale)}</button>
+                  <button onClick={() => removePreset(preset.id)} className="text-xs text-red-500 hover:text-red-600 inline-flex items-center gap-1"><Trash2 className="w-3 h-3" />{t("deletePreset", locale)}</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Filter bar */}
       <div className="mb-6">
         <button
@@ -107,7 +186,7 @@ export function OpportunitiesClient({ opps, locale, watchAction, passAction }: {
           className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition mb-3"
         >
           <SlidersHorizontal className="w-4 h-4" />
-          <span>{showFilters ? t("clickToCollapse", locale) : "Filters & Sort"}</span>
+          <span>{showFilters ? t("clickToCollapse", locale) : t("filtersAndSort", locale)}</span>
           {hasActiveFilters && <span className="w-2 h-2 rounded-full bg-blue-500" />}
         </button>
 
@@ -185,7 +264,7 @@ function OppCard({ opp: o, showActions, locale, watchAction, passAction }: { opp
   const flags = (o.riskFlags || []) as string[];
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden density-card">
       <div className="px-5 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3 flex-wrap">
           <span className="text-lg font-bold text-gray-900">{o.protocolName}</span>
