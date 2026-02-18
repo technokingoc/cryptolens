@@ -7,6 +7,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "CryptoLens — Portfolio Intelligence",
   description: "Investment portfolio tracking and capital management platform",
+  openGraph: {
+    title: "CryptoLens — Portfolio Intelligence",
+    description: "Investment portfolio tracking and capital management platform",
+    type: "website",
+  },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
