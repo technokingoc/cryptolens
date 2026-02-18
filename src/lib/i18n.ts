@@ -196,6 +196,40 @@ const dict = {
   marketIntelligence: { en: "Market Intelligence", pt: "Inteligência de Mercado" },
   analysisReportsTitle: { en: "Analysis Reports", pt: "Relatórios de Análise" },
 
+  // Costs enhanced
+  exchangeFees: { en: "Exchange Fees", pt: "Taxas de Exchange" },
+  subscriptions: { en: "Subscriptions", pt: "Assinaturas" },
+  gasNetwork: { en: "Gas / Network", pt: "Gas / Rede" },
+  other: { en: "Other", pt: "Outros" },
+  monthlyTrend: { en: "Monthly Trend", pt: "Tendência Mensal" },
+  selectCategory: { en: "Select category...", pt: "Selecionar categoria..." },
+
+  // Reports enhanced
+  portfolioPerformance: { en: "Portfolio Performance", pt: "Desempenho do Portfólio" },
+  realizedPnl: { en: "Realized P&L", pt: "L&P Realizado" },
+  totalReturn: { en: "Total Return", pt: "Retorno Total" },
+  monthlyPnlTable: { en: "Monthly P&L", pt: "L&P Mensal" },
+  buys: { en: "Buys", pt: "Compras" },
+  sells: { en: "Sells", pt: "Vendas" },
+  topPerformers: { en: "Top Performers", pt: "Melhores Desempenhos" },
+  worstPerformers: { en: "Worst Performers", pt: "Piores Desempenhos" },
+  noDataYet: { en: "No data available yet", pt: "Sem dados disponíveis ainda" },
+  wenReports: { en: "Wen Reports", pt: "Relatórios do Wen" },
+
+  // Market enhanced
+  globalStats: { en: "Global Market Stats", pt: "Estatísticas Globais" },
+  activeCryptos: { en: "Active Cryptos", pt: "Criptos Ativos" },
+  markets: { en: "Markets", pt: "Mercados" },
+  marketCapChange24h: { en: "24h MCap Change", pt: "Var. MCap 24h" },
+  trendingCoins: { en: "Trending Coins", pt: "Moedas em Alta" },
+  trendingNfts: { en: "Trending NFTs", pt: "NFTs em Alta" },
+
+  // Transaction form
+  searchCoin: { en: "Search coin...", pt: "Buscar moeda..." },
+  selectCoinFirst: { en: "Select a coin first", pt: "Selecione uma moeda primeiro" },
+  mustBePositive: { en: "Must be > 0", pt: "Deve ser > 0" },
+  dateTime: { en: "Date & Time", pt: "Data & Hora" },
+
   // Common
   signOut: { en: "Sign out", pt: "Sair" },
 

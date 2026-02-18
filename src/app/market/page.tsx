@@ -9,7 +9,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
-import { Globe, TrendingUp, Radio, BarChart3 } from "lucide-react";
+import { Globe, TrendingUp, Radio, BarChart3, Activity, Coins, PieChart, Flame, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 async function fetchFearGreed() {
   try { const r = await fetch("https://api.alternative.me/fng/?limit=7", { next: { revalidate: 300 } }); return await r.json(); } catch { return null; }
@@ -20,6 +20,19 @@ async function fetchGlobalData() {
 async function fetchTrending() {
   try { const r = await fetch("https://api.coingecko.com/api/v3/search/trending", { next: { revalidate: 300 } }); return await r.json(); } catch { return null; }
 }
+
+const extraLabels = {
+  globalStats: { en: "Global Market Stats", pt: "Estatísticas Globais" },
+  activeCryptos: { en: "Active Cryptos", pt: "Criptos Ativos" },
+  markets: { en: "Markets", pt: "Mercados" },
+  marketCapChange: { en: "24h MCap Change", pt: "Var. MCap 24h" },
+  trendingCoins: { en: "Trending Coins", pt: "Moedas em Alta" },
+  trendingNfts: { en: "Trending NFTs", pt: "NFTs em Alta" },
+  rank: { en: "Rank", pt: "Rank" },
+  price24h: { en: "24h", pt: "24h" },
+};
+
+function el(key: keyof typeof extraLabels, locale: Locale) { return extraLabels[key][locale]; }
 
 export default async function MarketPage() {
   const session = await auth();
@@ -40,6 +53,9 @@ export default async function MarketPage() {
 
   const fngColor = (v: number) => v <= 20 ? "text-red-500" : v <= 40 ? "text-orange-500" : v <= 60 ? "text-yellow-600" : v <= 80 ? "text-emerald-600" : "text-emerald-500";
 
+  const trendingCoins = trending?.coins?.slice(0, 10) ?? [];
+  const trendingNfts = trending?.nfts?.slice(0, 5) ?? [];
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user?.name} locale={locale} />
@@ -49,16 +65,25 @@ export default async function MarketPage() {
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2"><Globe className="w-6 h-6 text-gray-400" /> {t("marketIntelligence", locale)}</h1>
         </div>
 
+        {/* Global Stats Cards */}
         {gd && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-            <MC label={t("totalMarketCap", locale)} value={`$${(gd.total_market_cap?.usd / 1e12).toFixed(2)}T`} />
-            <MC label={t("volume24h", locale)} value={`$${(gd.total_volume?.usd / 1e9).toFixed(0)}B`} />
-            <MC label={t("btcDominance", locale)} value={`${gd.market_cap_percentage?.btc?.toFixed(1)}%`} />
-            <MC label={t("ethDominance", locale)} value={`${gd.market_cap_percentage?.eth?.toFixed(1)}%`} />
+          <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-6">
+            <StatCard icon={<Coins className="w-4 h-4 text-blue-500" />} label={t("totalMarketCap", locale)} value={`$${(gd.total_market_cap?.usd / 1e12).toFixed(2)}T`} />
+            <StatCard icon={<Activity className="w-4 h-4 text-purple-500" />} label={t("volume24h", locale)} value={`$${(gd.total_volume?.usd / 1e9).toFixed(0)}B`} />
+            <StatCard icon={<PieChart className="w-4 h-4 text-orange-500" />} label={t("btcDominance", locale)} value={`${gd.market_cap_percentage?.btc?.toFixed(1)}%`} />
+            <StatCard icon={<PieChart className="w-4 h-4 text-indigo-500" />} label={t("ethDominance", locale)} value={`${gd.market_cap_percentage?.eth?.toFixed(1)}%`} />
+            <StatCard icon={<Flame className="w-4 h-4 text-emerald-500" />} label={el("activeCryptos", locale)} value={gd.active_cryptocurrencies?.toLocaleString() ?? "—"} />
+            <StatCard
+              icon={gd.market_cap_change_percentage_24h_usd >= 0 ? <ArrowUpRight className="w-4 h-4 text-emerald-500" /> : <ArrowDownRight className="w-4 h-4 text-red-500" />}
+              label={el("marketCapChange", locale)}
+              value={`${gd.market_cap_change_percentage_24h_usd >= 0 ? "+" : ""}${gd.market_cap_change_percentage_24h_usd?.toFixed(2)}%`}
+              valueColor={gd.market_cap_change_percentage_24h_usd >= 0 ? "text-emerald-600" : "text-red-500"}
+            />
           </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
+          {/* Fear & Greed */}
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <h2 className="font-semibold text-gray-700 mb-4 text-sm flex items-center gap-1.5"><BarChart3 className="w-4 h-4" /> {t("fearGreedIndex", locale)}</h2>
             {fngCurrent ? (
@@ -83,6 +108,7 @@ export default async function MarketPage() {
             ) : <p className="text-gray-400 text-sm">{t("unableToLoad", locale)}</p>}
           </div>
 
+          {/* Wen's Indicators */}
           <div className="bg-white border border-gray-200 rounded-xl p-5">
             <h2 className="font-semibold text-gray-700 mb-4 text-sm flex items-center gap-1.5"><Radio className="w-4 h-4" /> {t("wensIndicators", locale)}</h2>
             {indicators.length === 0 ? <p className="text-gray-400 text-sm">{t("willPopulate", locale)}</p> : (
@@ -97,21 +123,56 @@ export default async function MarketPage() {
             )}
           </div>
 
+          {/* Trending Coins - Enhanced */}
           <div className="bg-white border border-gray-200 rounded-xl p-5">
-            <h2 className="font-semibold text-gray-700 mb-4 text-sm flex items-center gap-1.5"><TrendingUp className="w-4 h-4" /> {t("trending", locale)}</h2>
-            {trending?.coins ? (
+            <h2 className="font-semibold text-gray-700 mb-4 text-sm flex items-center gap-1.5"><Flame className="w-4 h-4 text-orange-500" /> {el("trendingCoins", locale)}</h2>
+            {trendingCoins.length > 0 ? (
               <div className="space-y-2">
-                {trending.coins.slice(0, 8).map((c: { item: { id: string; thumb?: string; name: string; symbol: string; market_cap_rank?: number } }) => (
-                  <div key={c.item.id} className="flex justify-between items-center py-1.5 border-b border-gray-50 last:border-0">
-                    <div className="flex items-center gap-2">{c.item.thumb && <img src={c.item.thumb} alt="" className="w-5 h-5 rounded-full" />}<span className="text-sm text-gray-700">{c.item.name}</span><span className="text-xs text-gray-400">{c.item.symbol}</span></div>
-                    <span className="text-xs text-gray-400">#{c.item.market_cap_rank ?? "?"}</span>
-                  </div>
-                ))}
+                {trendingCoins.map((c: any, i: number) => {
+                  const item = c.item;
+                  const priceChange = item.data?.price_change_percentage_24h?.usd;
+                  return (
+                    <div key={item.id} className="flex justify-between items-center py-1.5 border-b border-gray-50 last:border-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] text-gray-300 w-4">{i + 1}</span>
+                        {item.thumb && <img src={item.thumb} alt="" className="w-5 h-5 rounded-full" />}
+                        <span className="text-sm text-gray-700">{item.name}</span>
+                        <span className="text-[10px] text-gray-400 uppercase">{item.symbol}</span>
+                      </div>
+                      <div className="text-right flex items-center gap-2">
+                        {typeof priceChange === "number" && (
+                          <span className={`text-xs font-medium ${priceChange >= 0 ? "text-emerald-600" : "text-red-500"}`}>
+                            {priceChange >= 0 ? "+" : ""}{priceChange.toFixed(1)}%
+                          </span>
+                        )}
+                        <span className="text-[10px] text-gray-400">#{item.market_cap_rank ?? "?"}</span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             ) : <p className="text-gray-400 text-sm">{t("unableToLoad", locale)}</p>}
           </div>
         </div>
 
+        {/* Trending NFTs (if available) */}
+        {trendingNfts.length > 0 && (
+          <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
+            <h2 className="font-semibold text-gray-700 mb-3 text-sm flex items-center gap-1.5"><Flame className="w-4 h-4 text-pink-500" /> {el("trendingNfts", locale)}</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              {trendingNfts.map((nft: any) => (
+                <div key={nft.id} className="bg-gray-50 rounded-lg p-3 text-center">
+                  {nft.thumb && <img src={nft.thumb} alt="" className="w-10 h-10 rounded-lg mx-auto mb-2" />}
+                  <p className="text-xs font-medium text-gray-700 truncate">{nft.name}</p>
+                  {nft.data?.floor_price && <p className="text-[10px] text-gray-400">{nft.data.floor_price}</p>}
+                  {nft.data?.h24_volume && <p className="text-[10px] text-gray-400">Vol: {nft.data.h24_volume}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Price Cache */}
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100">
             <h2 className="font-semibold text-gray-700 text-sm flex items-center gap-1.5"><BarChart3 className="w-4 h-4" /> {t("priceCache", locale)}</h2>
@@ -150,6 +211,11 @@ export default async function MarketPage() {
   );
 }
 
-function MC({ label, value }: { label: string; value: string }) {
-  return <div className="bg-white border border-gray-200 rounded-xl p-4"><p className="text-[11px] text-gray-400 uppercase tracking-wide">{label}</p><p className="text-xl font-bold text-gray-900 mt-1">{value}</p></div>;
+function StatCard({ icon, label, value, valueColor }: { icon: React.ReactNode; label: string; value: string; valueColor?: string }) {
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-4">
+      <div className="flex items-center gap-1.5 mb-1">{icon}<p className="text-[10px] text-gray-400 uppercase tracking-wide">{label}</p></div>
+      <p className={`text-xl font-bold ${valueColor ?? "text-gray-900"} mt-1`}>{value}</p>
+    </div>
+  );
 }

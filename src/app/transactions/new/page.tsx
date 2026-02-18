@@ -3,11 +3,12 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { recordTransaction } from "@/lib/actions";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { NewTransactionForm } from "@/components/new-transaction-form";
+import { recordTransaction } from "@/lib/actions";
 
 export default async function NewTransactionPage() {
   const session = await auth();
@@ -15,8 +16,6 @@ export default async function NewTransactionPage() {
 
   const cookieStore = await cookies();
   const locale = getLocaleFromCookie(cookieStore.get("locale")?.value) as Locale;
-
-  const inputCls = "w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200";
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -29,24 +28,7 @@ export default async function NewTransactionPage() {
             <h1 className="text-2xl font-bold text-gray-900">{t("recordTx", locale)}</h1>
           </div>
         </div>
-        <form action={recordTransaction} className="bg-white border border-gray-200 rounded-xl p-5 md:p-6 max-w-2xl space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div><label className="block text-xs text-gray-500 mb-1">{t("type", locale)} *</label><select name="type" required className={inputCls}><option value="BUY">{t("buy", locale)}</option><option value="SELL">{t("sell", locale)}</option></select></div>
-            <div><label className="block text-xs text-gray-500 mb-1">{t("bucket", locale)} *</label><select name="bucket" required className={inputCls}><option value="long-term">{t("longTerm", locale)}</option><option value="short-term">{t("shortTerm", locale)}</option></select></div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div><label className="block text-xs text-gray-500 mb-1">{t("coinId", locale)} *</label><input name="coinId" required placeholder="e.g. bitcoin" className={inputCls} /></div>
-            <div><label className="block text-xs text-gray-500 mb-1">{t("symbol", locale)} *</label><input name="symbol" required placeholder="e.g. BTC" className={inputCls} /></div>
-            <div><label className="block text-xs text-gray-500 mb-1">{t("name", locale)} *</label><input name="name" required placeholder="e.g. Bitcoin" className={inputCls} /></div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div><label className="block text-xs text-gray-500 mb-1">{t("quantity", locale)} *</label><input name="quantity" type="number" step="any" required placeholder="0.001" className={inputCls} /></div>
-            <div><label className="block text-xs text-gray-500 mb-1">{t("price", locale)} (USD) *</label><input name="pricePerUnit" type="number" step="any" required placeholder="68000" className={inputCls} /></div>
-            <div><label className="block text-xs text-gray-500 mb-1">Fee (USD)</label><input name="fee" type="number" step="any" defaultValue="0" className={inputCls} /></div>
-          </div>
-          <div><label className="block text-xs text-gray-500 mb-1">{t("notes", locale)}</label><textarea name="notes" rows={2} className={inputCls} placeholder={t("optionalNotes", locale)} /></div>
-          <button type="submit" className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition">{t("recordTx", locale)}</button>
-        </form>
+        <NewTransactionForm locale={locale} action={recordTransaction} />
       </main>
     </div>
   );
