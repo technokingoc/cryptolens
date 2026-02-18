@@ -13,6 +13,10 @@ const dict = {
   risk: { en: "Risk", pt: "Risco" },
   settings: { en: "Settings", pt: "Configurações" },
   more: { en: "More", pt: "Mais" },
+  navOverview: { en: "Overview", pt: "Visão Geral" },
+  navIntelligence: { en: "Intelligence", pt: "Inteligência" },
+  navPortfolio: { en: "Portfolio", pt: "Portfólio" },
+  navAnalysis: { en: "Analysis", pt: "Análise" },
 
   // Dashboard
   totalValue: { en: "Total Value", pt: "Valor Total" },

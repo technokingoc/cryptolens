@@ -2,8 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { Globe } from "lucide-react";
 
-export function LanguageSwitcher({ locale }: { locale: string }) {
+export function LanguageSwitcher({
+  locale,
+  iconOnly = false,
+  mobile = false,
+}: {
+  locale: string;
+  iconOnly?: boolean;
+  mobile?: boolean;
+}) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -13,14 +22,29 @@ export function LanguageSwitcher({ locale }: { locale: string }) {
     startTransition(() => router.refresh());
   };
 
+  if (iconOnly) {
+    return (
+      <button
+        onClick={toggle}
+        disabled={isPending}
+        className={`inline-flex items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 transition ${mobile ? "w-8 h-8" : "w-9 h-9"}`}
+        title={locale === "pt" ? "Switch to English" : "Mudar para Português"}
+        aria-label={locale === "pt" ? "Switch to English" : "Mudar para Português"}
+      >
+        <Globe className="w-4 h-4" />
+      </button>
+    );
+  }
+
   return (
     <button
       onClick={toggle}
       disabled={isPending}
-      className="px-2 py-1 text-xs font-medium rounded-md border border-gray-200 hover:bg-gray-100 transition text-gray-600"
+      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-md border border-gray-200 bg-white hover:bg-gray-100 transition text-gray-600"
       title={locale === "pt" ? "Switch to English" : "Mudar para Português"}
     >
-      {locale === "pt" ? "🇬🇧 EN" : "🇧🇷 PT"}
+      <Globe className="w-3.5 h-3.5" />
+      {locale === "pt" ? "EN" : "PT"}
     </button>
   );
 }

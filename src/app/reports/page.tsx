@@ -5,7 +5,6 @@ import { db } from "@/db";
 import { analysisReports } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { Sidebar } from "@/components/sidebar";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import { t, getLocaleFromCookie } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { cookies } from "next/headers";
@@ -24,13 +23,12 @@ export default async function ReportsPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} locale={locale} />
-      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
+      <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 mb-1">📄 {t("analysisReports", locale)}</h1>
             <p className="text-gray-400 text-sm">{t("reportsDesc", locale)}</p>
           </div>
-          <LanguageSwitcher locale={locale} />
         </div>
 
         {reports.length === 0 ? (

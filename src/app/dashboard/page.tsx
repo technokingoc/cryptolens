@@ -6,7 +6,6 @@ import { holdings, tradeProposals, marketIndicators } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { Sidebar } from "@/components/sidebar";
 import { DashboardTabs } from "@/components/dashboard-tabs";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import { fetchAndCachePrices } from "@/lib/market";
 import { enrichHoldings, calcAllocation, calcPortfolioStats } from "@/lib/portfolio";
 import { getTotalMonthlyCosts } from "@/lib/actions";
@@ -199,11 +198,10 @@ export default async function DashboardPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} locale={locale} />
-      <main className="flex-1 md:ml-60 pt-16 md:pt-0 p-4 md:p-8 pb-24 md:pb-8 max-w-7xl">
+      <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-7xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <h1 className="text-2xl font-bold text-gray-900">{t("dashboard", locale)}</h1>
           <div className="flex items-center gap-3">
-            <LanguageSwitcher locale={locale} />
             {pendingProposals.length > 0 && (
               <Link href="/proposals" className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition">
                 ⚡ {pendingProposals.length} {t("pendingProposals", locale)}
