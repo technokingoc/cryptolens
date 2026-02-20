@@ -27,14 +27,14 @@ export function DisplayDensityToggle({ locale }: { locale: Locale }) {
       <button
         type="button"
         onClick={() => apply("comfortable")}
-        className={`px-3 py-1.5 text-xs rounded-lg border ${density === "comfortable" ? "bg-blue-600 border-blue-600 text-white" : "bg-white border-gray-200 text-gray-600"}`}
+        className={`px-3 py-1.5 text-xs rounded-lg border ${density === "comfortable" ? "bg-emerald-600 border-emerald-600 text-white" : "bg-white border-gray-200 text-gray-600"}`}
       >
         {t("comfortable", locale)}
       </button>
       <button
         type="button"
         onClick={() => apply("compact")}
-        className={`px-3 py-1.5 text-xs rounded-lg border ${density === "compact" ? "bg-blue-600 border-blue-600 text-white" : "bg-white border-gray-200 text-gray-600"}`}
+        className={`px-3 py-1.5 text-xs rounded-lg border ${density === "compact" ? "bg-emerald-600 border-emerald-600 text-white" : "bg-white border-gray-200 text-gray-600"}`}
       >
         {t("compact", locale)}
       </button>

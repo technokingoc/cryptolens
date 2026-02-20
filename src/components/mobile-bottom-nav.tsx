@@ -60,7 +60,7 @@ export function MobileBottomNav({ locale = "en" }: { locale?: Locale }) {
                     href={l.href}
                     onClick={() => setShowMore(false)}
                     className={`flex flex-col items-center gap-1 py-3 rounded-xl text-xs transition ${
-                      pathname === l.href ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-500 hover:bg-gray-50"
+                      pathname === l.href ? "bg-emerald-50 text-emerald-700 font-medium" : "text-gray-500 hover:bg-gray-50"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -82,7 +82,7 @@ export function MobileBottomNav({ locale = "en" }: { locale?: Locale }) {
                 key={l.href}
                 href={l.href}
                 className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg text-[11px] transition ${
-                  pathname === l.href ? "text-blue-700 font-medium" : "text-gray-400"
+                  pathname === l.href ? "text-emerald-700 font-medium" : "text-gray-400"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -93,7 +93,7 @@ export function MobileBottomNav({ locale = "en" }: { locale?: Locale }) {
           <button
             onClick={() => setShowMore(!showMore)}
             className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg text-[11px] transition ${
-              isMoreActive || showMore ? "text-blue-700 font-medium" : "text-gray-400"
+              isMoreActive || showMore ? "text-emerald-700 font-medium" : "text-gray-400"
             }`}
           >
             <Ellipsis className="w-4 h-4" />

@@ -131,7 +131,7 @@ export function NewTransactionForm({ locale, action }: { locale: Locale; action:
       </div>
 
       <button type="submit" disabled={!coin?.id}
-        className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-40 disabled:cursor-not-allowed">
+        className="w-full bg-emerald-600 text-white py-2.5 rounded-lg font-medium hover:bg-emerald-700 transition disabled:opacity-40 disabled:cursor-not-allowed">
         {l("record")}
       </button>
     </form>

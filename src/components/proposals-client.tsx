@@ -159,7 +159,7 @@ export function ProposalsClient({ proposals, locale }: { proposals: Proposal[]; 
             placeholder={t("presetName", locale)}
             className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm"
           />
-          <button onClick={savePreset} className="px-3 py-2 rounded-lg text-sm bg-blue-600 text-white hover:bg-blue-700">
+          <button onClick={savePreset} className="px-3 py-2 rounded-lg text-sm bg-emerald-600 text-white hover:bg-emerald-700">
             {t("savePreset", locale)}
           </button>
         </div>
@@ -171,7 +171,7 @@ export function ProposalsClient({ proposals, locale }: { proposals: Proposal[]; 
               <div key={preset.id} className="flex items-center justify-between rounded-lg bg-gray-50 density-card px-3 py-2">
                 <div className="text-sm text-gray-700">{preset.name}</div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => applyPreset(preset)} className="text-xs text-blue-600 hover:text-blue-700">{t("applyPreset", locale)}</button>
+                  <button onClick={() => applyPreset(preset)} className="text-xs text-emerald-600 hover:text-emerald-700">{t("applyPreset", locale)}</button>
                   <button onClick={() => removePreset(preset.id)} className="text-xs text-red-500 hover:text-red-600 inline-flex items-center gap-1"><Trash2 className="w-3 h-3" />{t("deletePreset", locale)}</button>
                 </div>
               </div>
@@ -186,7 +186,7 @@ export function ProposalsClient({ proposals, locale }: { proposals: Proposal[]; 
         <div className="flex flex-wrap gap-1.5">
           {STATUS_FILTERS.map((s) => (
             <button key={s} onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${statusFilter === s ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${statusFilter === s ? "bg-emerald-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
               {statusLabels[s]} ({countByStatus(s)})
             </button>
           ))}
@@ -196,7 +196,7 @@ export function ProposalsClient({ proposals, locale }: { proposals: Proposal[]; 
           {ACTION_FILTERS.map((a) => (
             <button key={a} onClick={() => setActionFilter(a)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${actionFilter === a
-                ? a === "BUY" ? "bg-emerald-600 text-white" : a === "SELL" ? "bg-red-500 text-white" : "bg-blue-600 text-white"
+                ? a === "BUY" ? "bg-emerald-600 text-white" : a === "SELL" ? "bg-red-500 text-white" : "bg-emerald-600 text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
               {actionLabels[a]} ({countByAction(a)})
             </button>

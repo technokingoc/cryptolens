@@ -45,13 +45,13 @@ export default async function TransactionsPage() {
           <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Transactions" }]} />
         <h1 className="text-2xl font-bold text-gray-900">{t("transactions", locale)}</h1>
           <div className="flex items-center gap-2">
-            <Link href="/transactions/new" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition">+ {t("newTx", locale)}</Link>
+            <Link href="/transactions/new" className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition">+ {t("newTx", locale)}</Link>
           </div>
         </div>
         {txs.length === 0 ? (
           <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
             <p className="text-gray-400 mb-4">{t("noTransactions", locale)}</p>
-            <Link href="/transactions/new" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium">{t("recordFirst", locale)}</Link>
+            <Link href="/transactions/new" className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium">{t("recordFirst", locale)}</Link>
           </div>
         ) : (
           <TransactionsClient transactions={serialized} types={types} symbols={symbols} locale={locale} />

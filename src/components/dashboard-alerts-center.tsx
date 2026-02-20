@@ -28,7 +28,7 @@ export function DashboardAlertsCenter({ locale, symbols }: { locale: Locale; sym
     <div className="bg-white border border-gray-200 rounded-xl density-card-lg p-5 mb-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <h2 className="text-sm font-semibold text-gray-700 flex items-center gap-1.5"><BellRing className="w-4 h-4" />{t("alertsCenter", locale)}</h2>
-        <button onClick={addMockAlert} className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition self-start sm:self-auto">
+        <button onClick={addMockAlert} className="text-xs bg-emerald-600 text-white px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition self-start sm:self-auto">
           {t("createMockAlert", locale)}
         </button>
       </div>

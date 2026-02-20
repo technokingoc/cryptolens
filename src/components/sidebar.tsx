@@ -84,7 +84,7 @@ export function Sidebar({ userName, locale = "en" }: { userName?: string | null;
   const itemClass = (href: string) =>
     `flex items-center gap-3 px-5 py-2.5 text-sm rounded-lg mx-2 transition-colors ${
       pathname === href
-        ? "bg-blue-50 text-blue-700 font-medium"
+        ? "bg-emerald-50 text-emerald-700 font-medium"
         : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
     }`;
 
@@ -95,7 +95,7 @@ export function Sidebar({ userName, locale = "en" }: { userName?: string | null;
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={open ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} /></svg>
         </button>
         <Link href="/dashboard" className="flex items-center gap-2">
-          <Search className="w-5 h-5 text-blue-600" />
+          <Search className="w-5 h-5 text-emerald-600" />
           <span className="font-bold text-gray-900 text-sm">CryptoLens</span>
         </Link>
         <LanguageSwitcher locale={locale} iconOnly mobile />
@@ -118,7 +118,7 @@ export function Sidebar({ userName, locale = "en" }: { userName?: string | null;
       <aside className={`fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 flex flex-col z-50 transition-transform duration-200 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}>
         <div className="p-5 border-b border-gray-100">
           <Link href="/dashboard" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-            <Search className="w-5 h-5 text-blue-600" />
+            <Search className="w-5 h-5 text-emerald-600" />
             <span className="font-bold text-gray-900">CryptoLens</span>
           </Link>
         </div>

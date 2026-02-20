@@ -30,13 +30,13 @@ export function DensityToggle({ locale }: { locale: Locale }) {
       <span className="text-[11px] text-gray-400 px-1">{t("density", locale)}</span>
       <button
         onClick={() => updateDensity("comfortable")}
-        className={`px-2.5 py-1 text-xs rounded-md transition ${density === "comfortable" ? "bg-blue-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
+        className={`px-2.5 py-1 text-xs rounded-md transition ${density === "comfortable" ? "bg-emerald-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
       >
         {t("comfortable", locale)}
       </button>
       <button
         onClick={() => updateDensity("compact")}
-        className={`px-2.5 py-1 text-xs rounded-md transition ${density === "compact" ? "bg-blue-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
+        className={`px-2.5 py-1 text-xs rounded-md transition ${density === "compact" ? "bg-emerald-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
       >
         {t("compact", locale)}
       </button>

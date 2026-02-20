@@ -21,12 +21,12 @@ export function OnboardingHint({ hintKey, textKey, locale }: { hintKey: string; 
   if (!visible) return null;
 
   return (
-    <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 flex items-start justify-between gap-3">
+    <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 flex items-start justify-between gap-3">
       <div>
-        <p className="text-xs text-blue-700 font-semibold flex items-center gap-1.5 mb-1"><Lightbulb className="w-3.5 h-3.5" />{t("onboardingTitle", locale)}</p>
-        <p className="text-sm text-blue-800">{t(textKey, locale)}</p>
+        <p className="text-xs text-emerald-700 font-semibold flex items-center gap-1.5 mb-1"><Lightbulb className="w-3.5 h-3.5" />{t("onboardingTitle", locale)}</p>
+        <p className="text-sm text-emerald-800">{t(textKey, locale)}</p>
       </div>
-      <button onClick={dismiss} className="text-blue-700 hover:text-blue-900 text-xs inline-flex items-center gap-1 shrink-0">
+      <button onClick={dismiss} className="text-emerald-700 hover:text-emerald-900 text-xs inline-flex items-center gap-1 shrink-0">
         <X className="w-3.5 h-3.5" />{t("onboardingDismiss", locale)}
       </button>
     </div>

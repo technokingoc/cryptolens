@@ -51,7 +51,7 @@ function riskBadge(score: number, locale: Locale) {
 
 function statusBadge(s: string) {
   switch (s) {
-    case "new": return "bg-blue-50 text-blue-600";
+    case "new": return "bg-emerald-50 text-emerald-600";
     case "watching": return "bg-amber-50 text-amber-600";
     case "passed": return "bg-gray-100 text-gray-400";
     case "invested": return "bg-emerald-50 text-emerald-600";
@@ -160,7 +160,7 @@ export function OpportunitiesClient({ opps, locale, watchAction, passAction }: {
         <p className="text-xs font-semibold text-gray-600 mb-2 flex items-center gap-1.5"><Bookmark className="w-3.5 h-3.5" /> {t("savedPresets", locale)}</p>
         <div className="flex flex-col sm:flex-row gap-2 mb-3">
           <input value={presetName} onChange={(e) => setPresetName(e.target.value)} placeholder={t("presetName", locale)} className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm" />
-          <button onClick={savePreset} className="px-3 py-2 rounded-lg text-sm bg-blue-600 text-white hover:bg-blue-700">{t("savePreset", locale)}</button>
+          <button onClick={savePreset} className="px-3 py-2 rounded-lg text-sm bg-emerald-600 text-white hover:bg-emerald-700">{t("savePreset", locale)}</button>
         </div>
         {presets.length === 0 ? (
           <p className="text-xs text-gray-400">{t("noPresetsYet", locale)}</p>
@@ -170,7 +170,7 @@ export function OpportunitiesClient({ opps, locale, watchAction, passAction }: {
               <div key={preset.id} className="flex items-center justify-between rounded-lg bg-gray-50 density-card px-3 py-2">
                 <span className="text-sm text-gray-700">{preset.name}</span>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => applyPreset(preset)} className="text-xs text-blue-600 hover:text-blue-700">{t("applyPreset", locale)}</button>
+                  <button onClick={() => applyPreset(preset)} className="text-xs text-emerald-600 hover:text-emerald-700">{t("applyPreset", locale)}</button>
                   <button onClick={() => removePreset(preset.id)} className="text-xs text-red-500 hover:text-red-600 inline-flex items-center gap-1"><Trash2 className="w-3 h-3" />{t("deletePreset", locale)}</button>
                 </div>
               </div>
@@ -187,7 +187,7 @@ export function OpportunitiesClient({ opps, locale, watchAction, passAction }: {
         >
           <SlidersHorizontal className="w-4 h-4" />
           <span>{showFilters ? t("clickToCollapse", locale) : t("filtersAndSort", locale)}</span>
-          {hasActiveFilters && <span className="w-2 h-2 rounded-full bg-blue-500" />}
+          {hasActiveFilters && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
         </button>
 
         {showFilters && (
@@ -229,7 +229,7 @@ export function OpportunitiesClient({ opps, locale, watchAction, passAction }: {
               </div>
             </div>
             {hasActiveFilters && (
-              <button onClick={clearFilters} className="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1">
+              <button onClick={clearFilters} className="text-xs text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
                 <X className="w-3 h-3" /> {t("clearFilters", locale)}
               </button>
             )}

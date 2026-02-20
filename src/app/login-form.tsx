@@ -48,7 +48,7 @@ export default function LoginForm({ signInAction }: { signInAction: (formData: F
         required
         placeholder="Email"
         autoComplete="username"
-        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
+        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300"
       />
       <input
         name="password"
@@ -56,12 +56,12 @@ export default function LoginForm({ signInAction }: { signInAction: (formData: F
         required
         placeholder="Password"
         autoComplete="current-password"
-        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
+        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300"
       />
       <button
         type="submit"
         disabled={isPending}
-        className="w-full bg-blue-600 text-white rounded-xl px-6 py-3 font-medium hover:bg-blue-700 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full bg-emerald-600 text-white rounded-xl px-6 py-3 font-medium hover:bg-emerald-700 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {isPending ? (
           <>
@@ -76,7 +76,7 @@ export default function LoginForm({ signInAction }: { signInAction: (formData: F
         )}
       </button>
       <div className="text-center">
-        <a href="/help/account-recovery" className="text-sm text-blue-600 hover:text-blue-700 hover:underline">
+        <a href="/help/account-recovery" className="text-sm text-emerald-600 hover:text-emerald-700 hover:underline">
           Forgot password? / Esqueceu a senha?
         </a>
       </div>
