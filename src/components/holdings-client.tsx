@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { t, type Locale } from "@/lib/i18n";
 import type { HoldingWithPrice } from "@/lib/portfolio";
@@ -74,8 +74,8 @@ export function HoldingsTable({ holdings, locale }: { holdings: HoldingData[]; l
             </thead>
             <tbody className="divide-y divide-gray-50">
               {holdings.map((h) => (
-                <>
-                  <tr key={h.id} className="hover:bg-gray-50 cursor-pointer transition" onClick={() => toggle(h.id)}>
+                <Fragment key={h.id}>
+                  <tr className="hover:bg-gray-50 cursor-pointer transition" onClick={() => toggle(h.id)}>
                     <td className="px-4 py-3">
                       <span className="font-medium text-gray-900">{h.symbol}</span> <span className="text-gray-400 text-xs">{h.name}</span>
                       {expandedId === h.id ? <ChevronUp className="w-3.5 h-3.5 text-gray-400 inline ml-1" /> : <ChevronDown className="w-3.5 h-3.5 text-gray-400 inline ml-1" />}
@@ -90,13 +90,13 @@ export function HoldingsTable({ holdings, locale }: { holdings: HoldingData[]; l
                     <td className="px-4 py-3 text-right text-gray-400">{h.portfolioPct.toFixed(1)}%</td>
                   </tr>
                   {expandedId === h.id && (
-                    <tr key={`${h.id}-detail`}>
+                    <tr>
                       <td colSpan={9} className="p-0">
                         <DetailPanel holding={h} locale={locale} />
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               ))}
             </tbody>
           </table>

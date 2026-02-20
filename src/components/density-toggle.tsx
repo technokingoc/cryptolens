@@ -5,7 +5,7 @@ import { t, type Locale } from "@/lib/i18n";
 
 type Density = "comfortable" | "compact";
 
-const STORAGE_KEY = "cryptolens-density";
+const STORAGE_KEY = "cl:display:density";
 
 function getInitialDensity(): Density {
   if (typeof window === "undefined") return "comfortable";

@@ -40,10 +40,9 @@ export default async function TransactionsPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar userName={session.user.name} locale={locale} />
       <main className="flex-1 md:ml-64 pt-16 md:pt-20 p-4 md:p-8 pb-24 md:pb-8 max-w-7xl">
-        <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Transactions" }]} />
+        <Breadcrumb items={[{ label: t("dashboard", locale), href: "/dashboard" }, { label: t("transactions", locale) }]} />
         <div className="flex items-center justify-between mb-6">
-          <Breadcrumb items={[{ label: "Dashboard", href: "/dashboard" }, { label: "Transactions" }]} />
-        <h1 className="text-2xl font-bold text-gray-900">{t("transactions", locale)}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("transactions", locale)}</h1>
           <div className="flex items-center gap-2">
             <Link href="/transactions/new" className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition">+ {t("newTx", locale)}</Link>
           </div>
